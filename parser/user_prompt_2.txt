@@ -1,0 +1,120 @@
+=== КОНТЕКСТ ===
+ФИО: Ахмедова Дарья
+Должность: Младший аналитик
+Целевой грейд: Middle
+Проекты: РЖД: Миграция, СКИМ Ц. Программа обучения молодых специалистов.
+
+=== КОМПЕТЕНЦИИ ДЛЯ ИПР (уже отобраны Python) ===
+
+1. Компетенция: SQL
+   Тип: hard
+   Текущий уровень: 3
+   Целевой уровень: 4
+   Почему в ИПР: упомянута в БОР как зона роста
+
+2. Компетенция: Анализ и формулирование требований (НФТ)
+   Тип: hard
+   Текущий уровень: 2
+   Целевой уровень: 3
+   Почему в ИПР: критический пробел (уровень 2)
+
+3. Компетенция: Модель данных
+   Тип: hard
+   Текущий уровень: 2
+   Целевой уровень: 3
+   Почему в ИПР: критический пробел (уровень 2)
+
+4. Компетенция: Требования к интеграции
+   Тип: hard
+   Текущий уровень: 2
+   Целевой уровень: 3
+   Почему в ИПР: критический пробел (уровень 2)
+
+5. Компетенция: Проведение и участие во встречах
+   Тип: soft
+   Текущий уровень: Junior
+   Целевой уровень: Middle
+   Почему в ИПР: уровень ниже целевого грейда
+
+
+
+=== ДОСТУПНЫЕ КУРСЫ (выбирай ТОЛЬКО из этого списка) ===
+
+--- Для компетенции: SQL ---
+КОРУС:
+  • «Базы данных и SQL: обучение» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=248
+  • «Базы данных и SQL: продвинутый уровень» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=324
+  • «Задание «Типы данных SQL»» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=976
+  • «Язык запросов «1С:Предприятия 8»» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=1241
+ДАР:
+  • «ClickHouse» (Middle,Senior) — https://edu.korusconsulting.ru/enrol/index.php?id=676
+  • «GreenPlum» (Middle,Senior) — https://edu.korusconsulting.ru/enrol/index.php?id=615
+Внешние (бесплатные):
+  • «SQL для начинающих (Stepik)» (Junior,Middle) — https://stepik.org/course/63054
+ДПО (внешние платные) — ОБЯЗАТЕЛЬНО возьми 1 курс отсюда:
+  • «Бизнес аналитик в IT (практика с поддержкой автора)» (Stepik, 1 мес, 9 900 ₽) — https://stepik.org/course/259387/promo
+  • «BI-аналитик» (Академия Эдюсон, 5 мес, 199 750 ₽) — https://eduson.academy/bi-analyst
+  • «SQL и получение данных» (Нетология, 9 нед, 68 485 ₽) — https://netology.ru/programs/sql-lessons
+  • «Excel + Power BI для анализа данных» (Digital Skills Academy, 2 мес, 50 000 ₽) — https://digitalskillsacademy.ru/excel
+  • «Обработка и анализ данных в SQL» (SF Education, 1 мес, 57 000 ₽) — https://sf.education/sql
+
+--- Для компетенции: Анализ и формулирование требований (НФТ) ---
+КОРУС:
+  • «Тестирование. Зачем аналитику тестировать разработку?» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=703
+  • «Вебинар «Основные техники тест-дизайна»» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=768
+ДАР:
+  • «Основы информационной безопасности» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=978
+  • «Обработка персональных данных» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=985
+ДПО (внешние платные) — ОБЯЗАТЕЛЬНО возьми 1 курс отсюда:
+  • «Системный и бизнес-аналитик» (Нетология, 13 мес, 288 000 ₽) — https://netology.ru/programs/sistemnyj-i-biznes-analitik
+
+--- Для компетенции: Модель данных ---
+КОРУС:
+  • «ER-диаграмма (тест)» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=951
+  • «Задание «ER-диаграмма»» (Middle) — https://edu.korusconsulting.ru/course/view.php?id=950
+  • «Базы данных и SQL: продвинутый уровень» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=324
+ДАР:
+  • «Обучение для младших инженеров данных» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=1162
+ДПО (внешние платные) — ОБЯЗАТЕЛЬНО возьми 1 курс отсюда:
+  • «Обработка и анализ данных в SQL» (SF Education, 1 мес, 57 000 ₽) — https://sf.education/sql
+  • «SQL для работы с данными и аналитики» (Яндекс Практикум, 3 мес, 51 600 ₽) — https://practicum.yandex.ru/sql-data-analyst
+  • «Бизнес-аналитик данных» (ЦДО МГТУ им. Н.Э. Баумана, 6 мес, 329 500 ₽) — https://do.bmstu.ru/napravleniya-obucheniya/programmirovanie-i-it/biznes-analitik-dannykh-1473/
+  • «Power Pivot и Power BI: модели данных и дашборды» (ЦДО МГТУ им. Н.Э. Баумана, 1 мес, 36 000 ₽) — https://do.bmstu.ru/napravleniya-obucheniya/programmirovanie-i-it/instrument-modelirovaniya-dannykh-power-pivot-ot-prostykh-modeley-do-slozhnykh-interaktivnykh-otchet-1631/
+  • «SQL-разработчик: тариф Базовый» (Академия Эдюсон, 2 мес, 199 750 ₽) — https://eduson.academy/sql-developer
+
+--- Для компетенции: Требования к интеграции ---
+КОРУС:
+  • «Интеграции REST» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=1391
+  • «Интеграционные возможности 1С:Документооборот 3.0» (Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=618
+  • «Тест «Стили интеграции»» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=1409
+ДАР:
+  • «Apache Kafka» (Middle,Senior,Прочее) — https://edu.korusconsulting.ru/course/view.php?id=1157
+ДПО (внешние платные) — ОБЯЗАТЕЛЬНО возьми 1 курс отсюда:
+  • «Системный аналитик с нуля до PRO + ИИ» (Академия Эдюсон, 8 мес, 161 800 ₽) — https://eduson.academy/sravni-systems-analyst
+  • «Системный аналитик» (Яндекс Практикум, 9 мес, 135 000 ₽) — https://practicum.yandex.ru/systems-analyst
+  • «Профессия Системный аналитик + ИИ» (Skillbox, 8 мес, 215 424 ₽) — https://skillbox.ru/course/profession-system-analyst/
+
+--- Для компетенции: Проведение и участие во встречах ---
+КОРУС:
+  • «Тренинг «Мастерство презентаций»» (Junior,Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=990
+  • «KORUS Челлендж «Делаем крутые слайды»» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=100
+  • «Подготовка презентаций и выступлений» (Junior,Middle) — https://edu.korusconsulting.ru/course/view.php?id=1182
+ДАР:
+  • «Искусство самопрезентации» (Junior,Middle,Senior) — https://edu.korusconsulting.ru/course/view.php?id=1160
+ДПО (внешние платные) — ОБЯЗАТЕЛЬНО возьми 1 курс отсюда:
+  • «MS Office Pack: Excel, Word, PowerPoint» (SF Education, 3 мес, 100 000 ₽) — https://sf.education/officepack
+  • «Курсы создания презентаций в PowerPoint» (Международная школа профессий, 3 нед, 23 200 ₽) — https://online.videoforme.ru/market_school/course-powerpoint-web
+  • «Microsoft Office: тариф Базовый» (Академия Эдюсон, 1 мес, 103 975 ₽) — https://eduson.academy/msoffice
+  • «Нейросети для презентаций» (Академия Эдюсон, 1 мес, 103 709 ₽) — https://eduson.academy/presentation-master
+
+
+=== ЧТО ОБСУЖДАЛОСЬ НА БОР ПО ПОВОДУ ОБУЧЕНИЯ ===
+София: И ещё один пункт из обратной связи: ты инициативная, но курсы часто не доводишь до конца. Это тоже важно для мидла — умение доводить начатое до результата. У тебя было несколько курсов по SQL, по Python, но ты их не закончила. Почему так?
+Наталья: Отлично, что ты это осознаёшь. Тогда давай подумаем, что можно сделать. Я предлагаю сфокусироваться на трёх компетенциях: эмоциональная устойчивость, навыки переговоров и доведение обучения до конца. Как тебе такой набор?
+Дарья: На поезде. Я не вожу. Но там обещают экскурсии, так что норм.
+Наталья: Пока-пока! Дарья, если что — пиши в личку, не стесняйся. И не забудь про кота, который на подоконнике. Пусть он тоже будет в курсе твоих планов.
+
+=== ЗАДАЧА ===
+Для каждой из 5 компетенций выше сформируй развивающие действия.
+Используй РОВНО этот список компетенций.
+Курсы выбирай ТОЛЬКО из блока "ДОСТУПНЫЕ КУРСЫ".

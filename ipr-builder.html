@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Собрать ИПР | KORUS Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--brand:#6366f1;--brand-dark:#4f46e5;--brand-soft:#f4f0ff;--brand-line:#b9a8ff;--ink:#141414;--muted:#667085;--line:#d9dee8;--soft:#f6f7fb;--dark:#212f45;--green:#35b978;--yellow:#d8bf2a;--red:#ea6b72}
+html,body{font-family:'Inter','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f4f7fb;color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-dark);text-decoration:none}a:hover{text-decoration:underline}
+.k-header{background:var(--dark);color:#fff;padding:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:100}
+.k-header-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:18px}
+.k-logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:18px}
+.k-logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#F9423A 0%,#c252f7 50%,#7949F4 100%);display:grid;place-items:center;font-weight:900;font-size:15px;color:#fff}
+.k-nav{margin-left:auto;display:flex;gap:22px;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
+.k-nav a{color:inherit}.k-nav a:hover{color:#fff;text-decoration:none}
+.k-nav a.active{color:#fff}
+.k-container{max-width:1400px;margin:0 auto;padding:30px 24px 60px}
+.k-hero{background:linear-gradient(135deg,#5b35d5 0%,#17161c 70%);border-radius:16px;padding:30px 32px;color:#fff;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.k-hero h1{font-size:clamp(24px,3vw,36px);line-height:1.1;font-weight:800;margin-bottom:8px}
+.k-hero p{color:rgba(255,255,255,.8);max-width:720px;font-size:15px}
+.k-hero-badge{padding:10px 16px;border:1px solid rgba(255,255,255,.25);border-radius:10px;font-size:13px;color:rgba(255,255,255,.85)}
+.k-stepper{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.k-step-dot{display:flex;align-items:center;gap:8px;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.08);font-size:12px;font-weight:600;color:rgba(255,255,255,.75)}
+.k-step-dot.done{background:rgba(99,102,241,.4);color:#fff}
+.k-step-dot .dot{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px}
+.k-step-dot.done .dot{background:#fff;color:#5b35d5;font-weight:800}
+.ipr-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+@media(max-width:1024px){.ipr-layout{grid-template-columns:1fr}}
+.ipr-main{display:flex;flex-direction:column;gap:20px;min-width:0}
+.ipr-step{background:#fff;border-radius:16px;padding:24px;box-shadow:0 4px 20px rgba(15,23,42,.04);transition:box-shadow .25s}
+.ipr-step:hover{box-shadow:0 8px 28px rgba(15,23,42,.06)}
+.ipr-step-header{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}
+.ipr-step-num{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;font-weight:800;font-size:15px;flex-shrink:0;box-shadow:0 4px 12px rgba(99,102,241,.3)}
+.ipr-step-header h2{font-size:18px;font-weight:700;margin-bottom:2px}
+.ipr-step-header p{color:var(--muted);font-size:13px}
+.ipr-field{margin-bottom:18px}
+.ipr-field:last-child{margin-bottom:0}
+.ipr-field label{display:block;font-size:13px;font-weight:600;color:#334155;margin-bottom:8px}
+.ipr-field label .opt{color:var(--muted);font-weight:400;font-size:11.5px}
+.ipr-input,.ipr-textarea{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:10px;font-size:14px;font-family:inherit;outline:none;transition:all .2s;background:#fff;color:var(--ink)}
+.ipr-input:focus,.ipr-textarea:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(99,102,241,.12)}
+.ipr-textarea{min-height:96px;resize:vertical;line-height:1.55}
+.ipr-input::placeholder,.ipr-textarea::placeholder{color:#aab1c1}
+.ipr-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ipr-chip{padding:8px 16px;border-radius:20px;background:#fff;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;color:#334155;user-select:none}
+.ipr-chip:hover{border-color:var(--brand-line);color:var(--brand-dark);transform:translateY(-1px)}
+.ipr-chip.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 4px 12px rgba(99,102,241,.3)}
+.ipr-suggest{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ipr-suggest-chip{padding:5px 12px;background:var(--soft);border:1px dashed var(--line);border-radius:16px;font-size:12px;color:#475569;cursor:pointer;transition:all .2s;user-select:none}
+.ipr-suggest-chip:hover{border-color:var(--brand-line);color:var(--brand-dark);background:var(--brand-soft)}
+.ipr-tabs{display:flex;gap:4px;margin-bottom:14px;background:var(--soft);padding:4px;border-radius:12px;width:max-content}
+.ipr-tab{padding:8px 18px;border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:600;color:#475569;border-radius:9px;cursor:pointer;transition:all .2s}
+.ipr-tab:hover{color:var(--brand-dark)}
+.ipr-tab.active{background:#fff;color:var(--brand-dark);box-shadow:0 2px 6px rgba(15,23,42,.08)}
+.ipr-cat-label{font-size:11.5px;font-weight:700;color:var(--brand-dark);text-transform:uppercase;letter-spacing:.5px;margin:14px 0 8px;padding-left:10px;border-left:3px solid var(--brand)}
+.ipr-cat-label:first-child{margin-top:0}
+.ipr-tag-cloud{display:flex;flex-wrap:wrap;gap:8px;padding:4px 0}
+.ipr-tag{padding:8px 15px;background:#fff;border:1px solid var(--line);border-radius:20px;font-size:13px;color:#334155;cursor:pointer;transition:all .2s;font-weight:500;user-select:none;display:inline-flex;align-items:center;gap:6px}
+.ipr-tag:hover{border-color:var(--brand-line);color:var(--brand-dark);transform:translateY(-1px)}
+.ipr-tag.selected{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 4px 10px rgba(99,102,241,.25)}
+.ipr-tag.selected::before{content:'✓';font-weight:700;font-size:11px}
+.ipr-empty{color:#94a3b8;font-style:italic;padding:14px 0;font-size:13px}
+.ipr-levels-block{margin-top:22px;padding-top:18px;border-top:2px dashed var(--line)}
+.ipr-levels-title{font-size:14px;font-weight:700;color:var(--brand-dark);margin-bottom:4px}
+.ipr-levels-sub{font-size:12px;color:var(--muted);margin-bottom:14px}
+.ipr-level-row{display:block;padding:14px 0;border-bottom:1px solid var(--soft)}
+.ipr-level-row:last-child{border-bottom:none}
+.ipr-level-row-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ipr-level-name{flex:1;min-width:200px;font-size:13.5px;color:var(--ink);font-weight:500}
+.ipr-level-selector{display:flex;gap:4px;background:var(--soft);padding:3px;border-radius:10px}
+.ipr-level-btn{padding:6px 14px;border:none;background:transparent;font-family:inherit;font-size:12.5px;font-weight:600;color:#475569;border-radius:8px;cursor:pointer;transition:all .15s}
+.ipr-level-btn:hover{color:var(--brand-dark);background:rgba(99,102,241,.08)}
+.ipr-level-btn.active{background:var(--brand);color:#fff;box-shadow:0 2px 6px rgba(99,102,241,.3)}
+.ipr-level-desc{margin-top:10px;padding:10px 14px;background:var(--soft);border-radius:10px;font-size:12.5px;line-height:1.55;color:#475569;border-left:3px solid var(--brand)}
+.ipr-level-desc-label{font-size:10.5px;font-weight:700;color:var(--brand-dark);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.ipr-level-desc ul{margin:0;padding-left:18px;list-style:disc}
+.ipr-level-desc li{margin-bottom:4px}
+.ipr-level-desc li:last-child{margin-bottom:0}
+.ipr-level-desc-hint{color:#94a3b8;font-style:italic;font-size:12.5px;margin-top:10px;padding:10px 14px;background:#fafbfc;border-radius:10px;border-left:3px solid var(--line)}
+.ipr-gap-badge{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:700;margin-left:8px}
+.ipr-gap-badge.gap{background:#fee2e2;color:#b91c1c}
+.ipr-gap-badge.ok{background:#dcfce7;color:#166534}
+.ipr-gap-badge.unknown{background:#e2e8f0;color:#64748b}
+.ipr-gap-badge.warn{background:#fef3c7;color:#92400e}
+.ipr-field-hint{margin-top:10px;padding:9px 13px;background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;font-size:12.5px;color:#92400e;font-weight:500}
+.ipr-gap-badge-out{display:inline-block;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:700;background:#f1f5f9;color:#64748b;border:1px dashed #cbd5e1;margin-left:8px}
+.ipr-gap-out-of-track{background:#fafbfc;border-style:dashed}
+.ipr-gap-out-of-track .ipr-gap-num{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.ipr-preview{position:sticky;top:90px;background:#fff;border-radius:16px;padding:22px;box-shadow:0 8px 30px rgba(99,102,241,.08);border:1px solid var(--brand-line)}
+@media(max-width:1024px){.ipr-preview{position:static}}
+.ipr-preview-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.ipr-preview h3{font-size:16px;font-weight:700}
+.ipr-preview-progress{font-size:11px;font-weight:700;padding:3px 9px;border-radius:10px;background:var(--brand-soft);color:var(--brand-dark)}
+.ipr-preview-progress.done{background:#ecfdf3;color:#166534}
+.ipr-preview-sub{font-size:12px;color:var(--muted);margin-bottom:18px}
+.ipr-preview-item{margin-bottom:14px;padding-bottom:14px;border-bottom:1px dashed var(--line)}
+.ipr-preview-item:last-of-type{border-bottom:none;margin-bottom:6px;padding-bottom:6px}
+.ipr-preview-label{font-size:10.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;margin-bottom:5px}
+.ipr-preview-value{font-size:14px;color:var(--ink);font-weight:500;line-height:1.45;word-wrap:break-word}
+.ipr-preview-value.empty{color:#cbd5e1;font-weight:400;font-style:italic;font-size:13px}
+.ipr-preview-count{display:inline-block;padding:2px 9px;background:var(--brand-soft);color:var(--brand-dark);border-radius:10px;font-size:12px;font-weight:700;margin-left:6px}
+.ipr-preview-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
+.ipr-preview-tag{padding:3px 10px;background:var(--soft);border-radius:12px;font-size:11.5px;color:#475569;font-weight:500;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ipr-preview-tag.gap{background:#fee2e2;color:#b91c1c}
+.ipr-preview-tag.ok{background:#dcfce7;color:#166534}
+.ipr-btn{width:100%;padding:12px 20px;background:var(--brand);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;margin-top:14px}
+.ipr-btn:hover:not(:disabled){background:var(--brand-dark);transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,.3)}
+.ipr-btn:disabled{background:#cbd5e1;cursor:not-allowed}
+.ipr-btn.secondary{background:#fff;color:var(--brand-dark);border:1px solid var(--brand-line);margin-top:8px}
+.ipr-btn.secondary:hover:not(:disabled){background:var(--brand-soft);box-shadow:none}
+.ipr-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);display:none;z-index:1000;justify-content:center;align-items:flex-start;padding:30px 20px;backdrop-filter:blur(4px);overflow-y:auto}
+.ipr-overlay.open{display:flex}
+.ipr-result{background:#fff;border-radius:20px;max-width:960px;width:100%;padding:32px;position:relative;margin:auto}
+.ipr-result-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:10px;background:var(--soft);border:none;font-size:18px;cursor:pointer;color:var(--muted);transition:all .2s}
+.ipr-result-close:hover{background:var(--brand-soft);color:var(--brand-dark)}
+.ipr-result h2{font-size:24px;font-weight:800;margin-bottom:6px;padding-right:40px}
+.ipr-result-sub{color:var(--muted);font-size:14px;margin-bottom:8px}
+.ipr-result-meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.ipr-result-meta span{padding:5px 12px;background:var(--brand-soft);color:var(--brand-dark);border-radius:14px;font-size:12px;font-weight:700}
+.ipr-result-meta span.grade{background:#e0e7ff;color:#3730a3}
+.ipr-result-meta span.goal{background:#ecfdf3;color:#166534}
+.ipr-result-section{margin-bottom:22px}
+.ipr-result-section h3{font-size:15px;font-weight:700;color:var(--brand-dark);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.ipr-result-section h3 small{color:var(--muted);font-weight:500;font-size:12px}
+.ipr-goal-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px;transition:all .2s}
+.ipr-goal-card:hover{border-color:var(--brand-line);box-shadow:0 4px 12px rgba(99,102,241,.08)}
+.ipr-goal-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.ipr-goal-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:800;font-size:13px;flex-shrink:0}
+.ipr-goal-title{font-size:15px;font-weight:700;color:var(--ink);flex:1;min-width:200px}
+.ipr-goal-deadline{padding:3px 10px;background:#fef3c7;color:#92400e;border-radius:10px;font-size:12px;font-weight:700}
+.ipr-goal-comment{font-size:13px;line-height:1.55;color:#475569;font-style:italic}
+.ipr-smart-grid{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.ipr-smart-grid{grid-template-columns:repeat(2,1fr)}}
+.ipr-smart-cell{display:flex;gap:10px;padding:10px 12px;background:var(--soft);border-radius:10px;font-size:12.5px;line-height:1.5}
+.ipr-smart-letter{flex-shrink:0;width:22px;height:22px;border-radius:6px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:11px}
+.ipr-smart-text{color:#334155}
+.ipr-gap-item{padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:14px;transition:box-shadow .2s}
+.ipr-gap-item:last-child{margin-bottom:0}
+.ipr-gap-item.collapsed{padding:12px 18px}
+.ipr-gap-header{display:flex;align-items:center;gap:10px;flex-wrap:wrap;cursor:pointer;user-select:none;margin:-4px 0 12px -4px;padding:4px}
+.ipr-gap-item.collapsed .ipr-gap-header{margin-bottom:0}
+.ipr-gap-header:hover .ipr-gap-name{color:var(--brand-dark)}
+.ipr-gap-arrow{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;color:var(--brand);font-size:10px;transition:transform .2s;flex-shrink:0}
+.ipr-gap-item.collapsed .ipr-gap-arrow{transform:rotate(-90deg)}
+.ipr-gap-body{display:block}
+.ipr-gap-item.collapsed .ipr-gap-body{display:none}
+.ipr-gap-num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-weight:800;font-size:13px;flex-shrink:0}
+.ipr-gap-name{font-size:15px;font-weight:700;color:var(--ink);transition:color .15s}
+.ipr-gap-delta{padding:3px 10px;background:#fee2e2;color:#b91c1c;border-radius:10px;font-size:12px;font-weight:700}
+.ipr-gap-levels{margin:10px 0;padding:10px 14px;background:var(--soft);border-radius:10px;font-size:13px;line-height:1.55;color:#334155}
+.ipr-gap-levels b{color:var(--brand-dark);font-weight:700}
+.ipr-collapsible{margin-top:12px}
+.ipr-collapsible:first-child{margin-top:0}
+.ipr-collapsible-header{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;padding:4px 0;margin:-4px 0}
+.ipr-collapsible-header:hover .ipr-collapsible-title{color:var(--brand-dark)}
+.ipr-collapsible-arrow{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;color:var(--brand);font-size:9px;transition:transform .2s;flex-shrink:0}
+.ipr-collapsible.collapsed .ipr-collapsible-arrow{transform:rotate(-90deg)}
+.ipr-collapsible-title{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;transition:color .15s}
+.ipr-collapsible-body{margin-top:8px}
+.ipr-collapsible.collapsed .ipr-collapsible-body{display:none}
+.ipr-practice-list{margin:0 0 0 6px;padding:0;font-size:13px;line-height:1.6;color:#334155;list-style:none}
+.ipr-practice-list li{padding-left:20px;position:relative;margin-bottom:4px}
+.ipr-practice-list li::before{content:'▶';position:absolute;left:0;color:var(--brand);font-size:10px;top:3px}
+.ipr-res-list{margin:0;padding:0;font-size:13px;line-height:1.6;color:#334155;list-style:none}
+.ipr-res-list li{padding:9px 12px 9px 38px;position:relative;margin-bottom:6px;background:#fff;border:1px solid var(--line);border-radius:10px;transition:all .15s}
+.ipr-res-list li:hover{border-color:var(--brand-line);background:var(--brand-soft)}
+.ipr-res-list li::before{content:attr(data-icon);position:absolute;left:12px;top:9px;font-size:14px}
+.ipr-res-list a{color:var(--brand-dark);font-weight:600;text-decoration:none}
+.ipr-res-list a:hover{text-decoration:underline}
+.ipr-res-list .res-author{color:var(--muted);font-weight:400;font-size:12px;margin-left:6px}
+.ipr-res-list .res-note{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+.ipr-res-list .res-meta{display:block;color:var(--muted);font-size:11.5px;margin-top:3px}
+.ipr-res-list .res-price{display:inline-block;padding:1px 7px;background:#ecfdf3;color:#166534;border-radius:6px;font-size:11px;font-weight:700;margin-left:6px}
+.ipr-course{display:block;padding:12px 16px;background:var(--soft);border:1px solid var(--line);border-radius:12px;margin-bottom:8px;transition:all .2s}
+.ipr-course:hover{border-color:var(--brand-line);background:#fff}
+.ipr-course a{color:var(--brand-dark);font-weight:600;font-size:13.5px;text-decoration:none;display:block;margin-bottom:4px}
+.ipr-course a:hover{text-decoration:underline}
+.ipr-course-meta{font-size:11.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+.ipr-course-meta span{padding:2px 8px;background:#fff;border-radius:8px;font-weight:600}
+.ipr-course-meta span.src-korus{background:#eef2ff;color:#4338ca}
+.ipr-course-meta span.src-dar{background:#ecfdf3;color:#166534}
+.ipr-course-meta span.src-dpo{background:#f3e8ff;color:#6b21a8}
+.ipr-empty-note{color:#94a3b8;font-style:italic;font-size:13px;padding:8px 0}
+.ipr-next-steps{background:var(--soft);border-radius:12px;padding:16px 18px;font-size:13px;color:#475569;line-height:1.6}
+.ipr-next-steps strong{color:var(--brand-dark)}
+.ipr-result-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
+.ipr-result-actions .ipr-btn{margin-top:0;flex:1;min-width:180px}
+.k-footer{background:var(--dark);color:rgba(255,255,255,.7);padding:26px 0;margin-top:40px}
+.k-footer-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:13px}
+.k-footer a{color:rgba(255,255,255,.85)}.k-footer a:hover{color:#fff}
+@media (max-width:640px){.k-nav{display:none}.k-container{padding:20px 14px 40px}.ipr-result{padding:22px}}
+</style>
+</head>
+<body>
+
+<header class="k-header">
+<div class="k-header-inner">
+<a href="competencies-courses.html" class="k-logo"><span class="k-logo-mark">КУ</span><span>КОРУС Education</span></a>
+<nav class="k-nav">
+<a href="competencies-courses.html">Курсы</a>
+<a href="#">Power.UP</a>
+<a href="#">О нас</a>
+<a href="ipr-builder.html" class="active">Конструктор ИПР</a>
+</nav>
+</div>
+</header>
+
+<div class="k-container">
+<section class="k-hero">
+<div>
+<h1>Собрать индивидуальный план развития</h1>
+<p>Расскажите о себе, цели и компетенциях — соберём черновик ИПР с курсами КОРУС, ДАР и внешних платформ ДПО, привязанными к вашей матрице.</p>
+<div class="k-stepper">
+<div class="k-step-dot" data-step="1"><span class="dot">1</span>О себе</div>
+<div class="k-step-dot" data-step="2"><span class="dot">2</span>Цель</div>
+<div class="k-step-dot" data-step="3"><span class="dot">3</span>Компетенции</div>
+<div class="k-step-dot" data-step="4"><span class="dot">4</span>ИПР</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+<div class="k-hero-badge">Черновик можно скачать и доработать</div>
+<button id="loadJsonBtn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);padding:11px 18px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s">📥 Загрузить черновик ИПР из JSON</button>
+</div>
+</section>
+
+<div class="ipr-layout">
+<main class="ipr-main">
+
+<section class="ipr-step" id="step1">
+<div class="ipr-step-header">
+<div class="ipr-step-num">1</div>
+<div>
+<h2>Кто вы сейчас</h2>
+<p>Так мы подберём курсы, соответствующие вашему текущему уровню</p>
+</div>
+</div>
+<div class="ipr-field">
+<label>Имя <span class="opt">— опционально, попадёт в шапку ИПР</span></label>
+<input type="text" class="ipr-input" id="userName" placeholder="Например, Андрей Игнатьев">
+</div>
+<div class="ipr-field">
+<label>Текущая роль</label>
+<input type="text" class="ipr-input" id="userRole" placeholder="Например, старший аналитик">
+</div>
+<div class="ipr-field">
+<label>Текущий грейд</label>
+<div class="ipr-chips" id="currentGradeChips">
+<div class="ipr-chip" data-grade="Junior">Junior</div>
+<div class="ipr-chip" data-grade="Middle">Middle</div>
+<div class="ipr-chip" data-grade="Senior">Senior</div>
+<div class="ipr-chip" data-grade="Lead">Lead</div>
+</div>
+</div>
+</section>
+
+<section class="ipr-step" id="step2">
+<div class="ipr-step-header">
+<div class="ipr-step-num">2</div>
+<div>
+<h2>Куда хотите прийти</h2>
+<p>Опишите цель по SMART — что, к какому сроку и зачем</p>
+</div>
+</div>
+<div class="ipr-field">
+<label>Цель развития на год+</label>
+<textarea class="ipr-textarea" id="userGoal" placeholder="Например: до конца 2026 года перейти на грейд Middle: закрыть пробелы по матрице хардов и софтов, вести 2–3 самостоятельных проекта"></textarea>
+<div class="ipr-suggest" id="goalSuggest">
+<div class="ipr-suggest-chip" data-text="Перейти на грейд Middle в течение 6 месяцев">Перейти на Middle</div>
+<div class="ipr-suggest-chip" data-text="Прокачать SQL и BI до уверенного уровня и применять на текущих проектах">SQL и BI</div>
+<div class="ipr-suggest-chip" data-text="Развить навыки презентации и демо для заказчиков">Презентации и демо</div>
+<div class="ipr-suggest-chip" data-text="Освоить ИИ-инструменты для ежедневной работы аналитиком">ИИ для аналитика</div>
+<div class="ipr-suggest-chip" data-text="Развить наставничество и вести джунов в команде">Наставничество</div>
+</div>
+</div>
+<div class="ipr-field">
+<label>Целевой грейд <span class="opt" style="color:#b91c1c;font-weight:600">— обязательно</span></label>
+<div class="ipr-chips" id="targetGradeChips">
+<div class="ipr-chip" data-grade="Junior">Junior</div>
+<div class="ipr-chip" data-grade="Middle">Middle</div>
+<div class="ipr-chip" data-grade="Senior">Senior</div>
+<div class="ipr-chip" data-grade="Lead">Lead</div>
+</div>
+<div id="targetGradeHint" class="ipr-field-hint" style="display:none">
+⚠ Вы уже выбрали компетенции, но пока не указали целевой грейд. Без него конструктор не сможет посчитать пробелы.
+</div>
+</div>
+</section>
+
+<section class="ipr-step" id="step3">
+<div class="ipr-step-header">
+<div class="ipr-step-num">3</div>
+<div>
+<h2>Что прокачать</h2>
+<p>Отметьте компетенции и укажите свой текущий уровень — конструктор посчитает пробел до целевого грейда</p>
+</div>
+</div>
+<input type="text" class="ipr-input" id="compSearch" placeholder="🔍 Поиск компетенции..." style="margin-bottom:14px">
+<div class="ipr-tabs">
+<button class="ipr-tab active" data-tab="hard">Hard skills</button>
+<button class="ipr-tab" data-tab="soft">Soft skills</button>
+</div>
+<div id="compCloud"></div>
+</section>
+
+</main>
+
+<aside class="ipr-preview">
+<div class="ipr-preview-top">
+<h3>Ваш ИПР</h3>
+<div class="ipr-preview-progress" id="previewProgress">0 / 4</div>
+</div>
+<div class="ipr-preview-sub">Черновик обновляется по мере заполнения</div>
+<div class="ipr-preview-item">
+<div class="ipr-preview-label">Сотрудник</div>
+<div class="ipr-preview-value empty" id="previewName">Не указано</div>
+</div>
+<div class="ipr-preview-item">
+<div class="ipr-preview-label">Роль и грейд</div>
+<div class="ipr-preview-value empty" id="previewRole">Не указано</div>
+</div>
+<div class="ipr-preview-item">
+<div class="ipr-preview-label">Цель</div>
+<div class="ipr-preview-value empty" id="previewGoal">Не сформулирована</div>
+</div>
+<div class="ipr-preview-item">
+<div class="ipr-preview-label">Компетенции к развитию <span class="ipr-preview-count" id="previewCompCount">0</span></div>
+<div id="previewCompTags" class="ipr-preview-value empty">Ничего не выбрано</div>
+</div>
+<button class="ipr-btn" id="openResultBtn" disabled>Показать ИПР</button>
+<button class="ipr-btn secondary" id="downloadBtn" disabled>Скачать черновик</button>
+</aside>
+
+</div>
+</div>
+
+<footer class="k-footer">
+<div class="k-footer-inner">
+<div>© 2019 – 2026 Корпоративный университет КОРУС Консалтинг</div>
+<div><a href="#">Сводка хранения данных</a> · <a href="#">Справка</a> · <a href="#">Telegram</a></div>
+</div>
+</footer>
+
+<div class="ipr-overlay" id="resultOverlay">
+<div class="ipr-result" id="resultBody"></div>
+</div>
+
+<script src="catalog.js"></script>
+<script src="catalog-courses.js"></script>
+<script>
+// ====================================================================
+// ДАННЫЕ О КУРСАХ
+// ====================================================================
+const data = window.KORUS_COURSES.data;
+const DPO_RAW = window.KORUS_COURSES.DPO_RAW;
+
+const GRADE_MAP = {J:'Junior',M:'Middle',S:'Senior',L:'Lead',P:'Прочее'};
+const DPO = DPO_RAW.map(function(r) {
+  return {
+    name: r[0], url: r[1], provider: r[2], duration: r[3], price: r[4],
+    grades: r[5].split(',').map(function(g) { return GRADE_MAP[g.trim()] || g.trim(); }),
+    competencies: r[6].split('|').map(function(s) { return s.trim(); }),
+    type: r[7]
+  };
+});
+
+const COMPETENCE_ALIASES = {
+  "Анализ и формулирование требований (ФТ)": "Анализ и формулирование ФТ",
+  "Анализ и формулирование требований (НФТ)": "Анализ и формулирование НФТ",
+  "Управление ожиданиями и информирование о трудностях": "Управление ожиданиями",
+  "Подбор типа графика под задачу": "Подбор типа графика / визуализация",
+  "Найм и оценка уровня кандидатов/сотрудников": "Найм и оценка",
+  "Презентация результатов работы": "Презентация результатов"
+};
+
+const SOFT_COURSE_MAP = {
+  "Письменная коммуникация": [{cat: "Работа с документами", comp: "Редактура и текст"}],
+  "Устная коммуникация": [{cat: "Управление ожиданиями и изменениями", comp: "Управление ожиданиями"}],
+  "Выстраивание долгосрочных партнёрских отношений": [{cat: "Управление ожиданиями и изменениями", comp: "Управление ожиданиями"}],
+  "Ответственность": [{cat: "Управление проектом", comp: "Управление проектом (общее)"}],
+  "Проведение и участие во встречах": [{cat: "Презентации и обучение", comp: "Презентация результатов"}],
+  "Взаимодействие в команде": [{cat: "Презентации и обучение", comp: "Презентация результатов"}],
+  "Навыки переговоров в производственных ситуациях": [{cat: "Управление ожиданиями и изменениями", comp: "Управление ожиданиями"}],
+  "Навыки презентаций": [{cat: "Презентации и обучение", comp: "Презентация результатов"}],
+  "Профессиональное обучение и личностное развитие": [{cat: "HR и развитие сотрудников", comp: "Развитие сотрудников"}]
+};
+
+const COVERED_BY_ALIAS = new Set(Object.values(COMPETENCE_ALIASES));
+
+const OUT_OF_TRACK = new Set([
+  "Управление ИИ-проектами",
+  "Создание ИИ-агентов",
+  "Написание промптов",
+  "ИИ для аналитиков"
+]);
+
+const HARD_COMPETENCES = (function() {
+  var out = [];
+  (KORUS_CATALOG.hardCategories || []).forEach(function(cat) {
+    cat.competencies.forEach(function(c) {
+      out.push({name: c.name, cat: cat.name, levels: c.levels});
+    });
+  });
+  Object.keys(data).forEach(function(cat) {
+    Object.keys(data[cat]).forEach(function(comp) {
+      if (out.some(function(x) { return x.name === comp; })) return;
+      if (COVERED_BY_ALIAS.has(comp)) return;
+      out.push({name: comp, cat: cat});
+    });
+  });
+  return out;
+})();
+
+const SOFT_COMPETENCES = (KORUS_CATALOG.softCompetencies || []).map(function(c) {
+  return {name: c.name, cat: 'Soft skills', indicators: c.indicators};
+});
+
+const PRACTICES = {
+  "SQL": [
+    "Возьмите 1–2 реальные задачи на текущем проекте и напишите для них выборки с JOIN и UNION",
+    "Напишите 5 разных аналитических запросов к БД проекта за спринт — покажите РГ",
+    "Разберите с системным аналитиком или РГ 1–2 сложных запроса из существующих витрин"
+  ],
+  "Модель данных": [
+    "Составьте ER-диаграмму для одной из задач текущего проекта",
+    "Разберите с архитектором или системным аналитиком, где и как нормализовать справочники",
+    "Сделайте ревью модели данных 1–2 задач коллег"
+  ],
+  "Требования к интеграции": [
+    "Разберите с архитектором 1–2 существующих интеграции проекта",
+    "Напишите требования к интеграции для новой задачи по шаблону",
+    "Покажите постановку разработчику и получите обратную связь по качеству требований"
+  ],
+  "Анализ и формулирование требований (НФТ)": [
+    "Разберите с архитектором 2–3 примера НФТ проекта",
+    "Сформулируйте НФТ для одной из задач и определите методику проверки",
+    "Проверьте НФТ у 1–2 задач коллег и обсудите с СА"
+  ],
+  "Проведение и участие во встречах": [
+    "Проведите встречу по чек-листу и подготовьте резюме",
+    "Возьмите роль модератора на одной из регулярных встреч команды",
+    "Попросите коллегу дать обратную связь по вашему ведению встречи"
+  ]
+};
+
+// ====================================================================
+// УТИЛИТЫ
+// ====================================================================
+function numToGrade(num) {
+  return {2: 'Junior', 3: 'Middle', 4: 'Senior', 5: 'Lead'}[num] || '';
+}
+
+function getLevelItems(compName, level) {
+  var hardCats = KORUS_CATALOG.hardCategories || [];
+  for (var i = 0; i < hardCats.length; i++) {
+    var hc = hardCats[i].competencies.find(function(x) { return x.name === compName; });
+    if (hc && hc.levels && hc.levels[String(level)]) return [hc.levels[String(level)]];
+  }
+  var soft = KORUS_CATALOG.softCompetencies || [];
+  var sc = soft.find(function(x) { return x.name === compName; });
+  if (sc && sc.indicators) {
+    var gradeName = (typeof level === 'number') ? numToGrade(level) : level;
+    if (sc.indicators[gradeName]) {
+      var arr = sc.indicators[gradeName];
+      return Array.isArray(arr) ? arr : [arr];
+    }
+  }
+  return [];
+}
+
+function levelToNum(level) {
+  if (typeof level === 'number') return level;
+  return (KORUS_CATALOG.gradeScale || {})[level] || 0;
+}
+
+function parseLevelValue(str) {
+  var num = parseInt(str, 10);
+  if (!isNaN(num)) return num;
+  var validGrades = ['Junior', 'Middle', 'Senior', 'Lead'];
+  var found = validGrades.find(function(g) { return g.toLowerCase() === String(str).toLowerCase(); });
+  return found ? levelToNum(found) : null;
+}
+
+function getLevelDescription(compName, level) {
+  var items = getLevelItems(compName, level);
+  return items.join(' · ');
+}
+
+function getPractices(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  return PRACTICES[realComp] || PRACTICES[compName] || [];
+}
+
+function getBooksForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.books) || {};
+  var list = map[realComp] || map[compName] || [];
+  var defaultUrl = (KORUS_CATALOG && KORUS_CATALOG.bookUrl) || "";
+  return list.map(function(b) {
+    return Object.assign({}, b, {url: b.url || defaultUrl});
+  });
+}
+
+function getTrainersForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.trainers) || {};
+  return map[realComp] || map[compName] || [];
+}
+
+function getCertsForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.certs) || {};
+  return map[realComp] || map[compName] || [];
+}
+
+// ====================================================================
+// СОСТОЯНИЕ
+// ====================================================================
+const state = {
+  name: '',
+  role: '',
+  currentGrade: '',
+  targetGrade: '',
+  goal: '',
+  goals: [],
+  selectedComps: new Set(),
+  levels: {},
+  targetLevels: {},
+  compTypes: {},
+  section1Results: [],
+  activeTab: 'hard'
+};
+
+const $ = function(id) { return document.getElementById(id); };
+const userNameEl = $('userName');
+const userRoleEl = $('userRole');
+const userGoalEl = $('userGoal');
+const compSearchEl = $('compSearch');
+const compCloudEl = $('compCloud');
+const currentGradeChips = $('currentGradeChips');
+const targetGradeChips = $('targetGradeChips');
+const stepDots = document.querySelectorAll('.k-step-dot');
+const overlay = $('resultOverlay');
+const resultBody = $('resultBody');
+
+function bindGradeChips(container, field) {
+  container.addEventListener('click', function(e) {
+    var chip = e.target.closest('.ipr-chip');
+    if (!chip) return;
+    var grade = chip.dataset.grade;
+    var isActive = chip.classList.contains('active');
+    container.querySelectorAll('.ipr-chip').forEach(function(c) { c.classList.remove('active'); });
+    if (!isActive) { chip.classList.add('active'); state[field] = grade; }
+    else { state[field] = ''; }
+    updatePreview();
+    renderCompCloud();
+  });
+}
+bindGradeChips(currentGradeChips, 'currentGrade');
+bindGradeChips(targetGradeChips, 'targetGrade');
+
+userNameEl.addEventListener('input', function() { state.name = userNameEl.value.trim(); updatePreview(); });
+userRoleEl.addEventListener('input', function() { state.role = userRoleEl.value.trim(); updatePreview(); });
+userGoalEl.addEventListener('input', function() { state.goal = userGoalEl.value.trim(); updatePreview(); });
+
+document.getElementById('goalSuggest').addEventListener('click', function(e) {
+  var chip = e.target.closest('.ipr-suggest-chip');
+  if (!chip) return;
+  var text = chip.dataset.text;
+  var cur = userGoalEl.value.trim();
+  userGoalEl.value = cur ? cur + '. ' + text : text;
+  state.goal = userGoalEl.value.trim();
+  updatePreview();
+});
+
+document.querySelectorAll('.ipr-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.ipr-tab').forEach(function(t) { t.classList.remove('active'); });
+    tab.classList.add('active');
+    state.activeTab = tab.dataset.tab;
+    renderCompCloud();
+  });
+});
+
+compSearchEl.addEventListener('input', renderCompCloud);
+
+function renderCompCloud() {
+  var list = state.activeTab === 'hard' ? HARD_COMPETENCES : SOFT_COMPETENCES;
+  var q = compSearchEl.value.trim().toLowerCase();
+  var filtered = q ? list.filter(function(c) { return c.name.toLowerCase().includes(q); }) : list;
+
+  if (!filtered.length) {
+    compCloudEl.innerHTML = '<div class="ipr-empty">Ничего не нашлось. Попробуйте изменить запрос.</div>';
+    return;
+  }
+
+  var byCat = {};
+  filtered.forEach(function(c) { (byCat[c.cat] = byCat[c.cat] || []).push(c); });
+
+  var html = '';
+  Object.keys(byCat).forEach(function(cat) {
+    html += '<div class="ipr-cat-label">' + cat + '</div><div class="ipr-tag-cloud">';
+    byCat[cat].forEach(function(c) {
+      var key = cat + '::' + c.name;
+      var selected = state.selectedComps.has(key);
+      html += '<div class="ipr-tag' + (selected ? ' selected' : '') + '" data-key="' + key + '" data-cat="' + cat + '" data-name="' + c.name.replace(/"/g, '&quot;') + '">' + c.name + '</div>';
+    });
+    html += '</div>';
+  });
+
+  if (state.selectedComps.size > 0) {
+    var targetNum = state.targetGrade ? levelToNum(state.targetGrade) : null;
+    html += '<div class="ipr-levels-block">';
+    html += '<div class="ipr-levels-title">Мой текущий уровень по выбранным компетенциям</div>';
+    if (!state.targetGrade) {
+      html += '<div class="ipr-levels-sub" style="color:#b91c1c;font-weight:600">Сначала выберите целевой грейд на шаге 2 — иначе пробелы не посчитаются</div>';
+    } else {
+      html += '<div class="ipr-levels-sub">Укажите, где вы сейчас — конструктор посчитает пробел до целевого грейда</div>';
+    }
+
+    state.selectedComps.forEach(function(key) {
+      var parts = key.split('::');
+      var compName = parts.slice(1).join('::');
+      var isHard = HARD_COMPETENCES.some(function(x) { return x.name === compName; });
+      var current = state.levels[key];
+      var currentNum = current !== undefined ? levelToNum(current) : null;
+
+      var badge;
+      if (targetNum !== null && currentNum !== null) {
+        badge = currentNum >= targetNum
+          ? '<span class="ipr-gap-badge ok">цель достигнута</span>'
+          : '<span class="ipr-gap-badge gap">пробел: ' + currentNum + ' → ' + targetNum + '</span>';
+      } else if (targetNum === null && currentNum !== null) {
+        badge = '<span class="ipr-gap-badge warn">← выберите целевой грейд</span>';
+      } else if (targetNum !== null && currentNum === null) {
+        badge = '<span class="ipr-gap-badge warn">→ укажите свой уровень</span>';
+      } else {
+        badge = '<span class="ipr-gap-badge unknown">заполните уровень и грейд</span>';
+      }
+
+      html += '<div class="ipr-level-row">';
+      html += '<div class="ipr-level-row-top">';
+      html += '<div class="ipr-level-name">' + compName + badge + '</div>';
+      html += '<div class="ipr-level-selector">';
+
+      [2,3,4,5].forEach(function(lvl) {
+        var active = currentNum === lvl;
+        var gradeName = numToGrade(lvl);
+        var titleText = isHard
+          ? 'Уровень ' + lvl
+          : (gradeName ? gradeName + ' (уровень ' + lvl + ')' : 'Уровень ' + lvl);
+        html += '<button class="ipr-level-btn' + (active ? ' active' : '') + '" data-key="' + key + '" data-level="' + lvl + '" title="' + escapeHtml(titleText) + '">' + lvl + '</button>';
+      });
+
+      html += '</div></div>';
+
+      var selectedLevel = currentNum;
+      if (selectedLevel !== undefined && selectedLevel !== null && selectedLevel !== '') {
+        var items = getLevelItems(compName, selectedLevel);
+        if (items.length) {
+          html += '<div class="ipr-level-desc">';
+          html += '<div class="ipr-level-desc-label">Что значит уровень ' + escapeHtml(String(selectedLevel)) + '</div>';
+          if (items.length === 1) {
+            html += '<div>' + escapeHtml(items[0]) + '</div>';
+          } else {
+            html += '<ul>';
+            items.forEach(function(it) { html += '<li>' + escapeHtml(it) + '</li>'; });
+            html += '</ul>';
+          }
+          html += '</div>';
+        } else {
+          html += '<div class="ipr-level-desc-hint">Выберите уровень — покажем критерии для него</div>';
+        }
+      } else {
+        html += '<div class="ipr-level-desc-hint">Выберите уровень — покажем критерии для него</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  compCloudEl.innerHTML = html;
+}
+
+compCloudEl.addEventListener('click', function(e) {
+  var lvlBtn = e.target.closest('.ipr-level-btn');
+  if (lvlBtn) {
+    var key = lvlBtn.dataset.key;
+    var raw = lvlBtn.dataset.level;
+    var parsed = /^\d+$/.test(raw) ? parseInt(raw, 10) : raw;
+    if (state.levels[key] === parsed) delete state.levels[key];
+    else state.levels[key] = parsed;
+    renderCompCloud();
+    updatePreview();
+    return;
+  }
+  var tag = e.target.closest('.ipr-tag');
+  if (!tag) return;
+  var k = tag.dataset.key;
+  if (state.selectedComps.has(k)) {
+    state.selectedComps.delete(k);
+    delete state.levels[k];
+    delete state.targetLevels[k];
+  } else {
+    state.selectedComps.add(k);
+  }
+  renderCompCloud();
+  updatePreview();
+});
+
+function calcProgress() {
+  var p = 0;
+  if (state.name) p++;
+  if (state.currentGrade || state.targetGrade || state.role) p++;
+  if (state.goal) p++;
+  if (state.selectedComps.size) p++;
+  return p;
+}
+
+function splitByGap() {
+  var defaultTarget = state.targetGrade ? levelToNum(state.targetGrade) : null;
+  var withGap = [], withGapOffTrack = [], withoutGap = [], unknown = [];
+
+  state.selectedComps.forEach(function(key) {
+    var parts = key.split('::');
+    var cat = parts[0];
+    var compName = parts.slice(1).join('::');
+    var current = state.levels[key];
+    var currentNum = current !== undefined ? levelToNum(current) : null;
+
+    var targetNum = state.targetLevels[key] !== undefined
+      ? levelToNum(state.targetLevels[key])
+      : defaultTarget;
+
+    var isOffTrack = OUT_OF_TRACK.has(compName);
+
+    if (targetNum === null || currentNum === null) {
+      unknown.push({key: key, cat: cat, compName: compName, outOfTrack: isOffTrack});
+    } else if (currentNum < targetNum) {
+      var item = {key: key, cat: cat, compName: compName, current: currentNum, target: targetNum, delta: targetNum - currentNum, outOfTrack: isOffTrack};
+      if (isOffTrack) withGapOffTrack.push(item);
+      else withGap.push(item);
+    } else {
+      withoutGap.push({key: key, cat: cat, compName: compName, current: currentNum, target: targetNum, outOfTrack: isOffTrack});
+    }
+  });
+
+  withGap.sort(function(a, b) { return b.delta - a.delta; });
+  withGapOffTrack.sort(function(a, b) { return b.delta - a.delta; });
+  return {withGap: withGap, withGapOffTrack: withGapOffTrack, withoutGap: withoutGap, unknown: unknown};
+}
+
+function updatePreview() {
+  var prevName = $('previewName');
+  if (state.name) { prevName.textContent = state.name; prevName.classList.remove('empty'); }
+  else { prevName.textContent = 'Не указано'; prevName.classList.add('empty'); }
+
+  var prevRole = $('previewRole');
+  var parts = [];
+  if (state.role) parts.push(state.role);
+  if (state.currentGrade && state.targetGrade && state.currentGrade !== state.targetGrade) parts.push(state.currentGrade + ' → ' + state.targetGrade);
+  else if (state.currentGrade) parts.push(state.currentGrade);
+  else if (state.targetGrade) parts.push('→ ' + state.targetGrade);
+  if (parts.length) { prevRole.textContent = parts.join(' · '); prevRole.classList.remove('empty'); }
+  else { prevRole.textContent = 'Не указано'; prevRole.classList.add('empty'); }
+
+  var prevGoal = $('previewGoal');
+  if (state.goal) {
+    prevGoal.textContent = state.goal.length > 140 ? state.goal.slice(0, 137) + '…' : state.goal;
+    prevGoal.classList.remove('empty');
+  } else {
+    prevGoal.textContent = 'Не сформулирована';
+    prevGoal.classList.add('empty');
+  }
+
+  var countEl = $('previewCompCount');
+  var tagsEl = $('previewCompTags');
+  countEl.textContent = state.selectedComps.size;
+
+  if (state.selectedComps.size) {
+    var sp = splitByGap();
+    var html = '<div class="ipr-preview-tags">';
+    sp.withGap.slice(0, 6).forEach(function(x) { html += '<span class="ipr-preview-tag gap">' + x.compName + ' ' + x.current + '→' + x.target + '</span>'; });
+    sp.withoutGap.slice(0, 2).forEach(function(x) { html += '<span class="ipr-preview-tag ok">' + x.compName + ' ✓</span>'; });
+    sp.unknown.slice(0, 2).forEach(function(x) { html += '<span class="ipr-preview-tag">' + x.compName + '</span>'; });
+    var total = sp.withGap.length + sp.withoutGap.length + sp.unknown.length + sp.withGapOffTrack.length;
+    if (total > 8) html += '<span class="ipr-preview-tag">+ ещё ' + (total - 8) + '</span>';
+    html += '</div>';
+    tagsEl.innerHTML = html;
+    tagsEl.classList.remove('empty');
+  } else {
+    tagsEl.textContent = 'Ничего не выбрано';
+    tagsEl.classList.add('empty');
+  }
+
+  var p = calcProgress();
+  var progEl = $('previewProgress');
+  progEl.textContent = p + ' / 4';
+  if (p >= 4) progEl.classList.add('done'); else progEl.classList.remove('done');
+
+  var ready = state.goal && state.selectedComps.size > 0 && state.targetGrade;
+  $('openResultBtn').disabled = !ready;
+  $('downloadBtn').disabled = !ready;
+
+  var hint = $('targetGradeHint');
+  if (hint) {
+    if (state.selectedComps.size > 0 && !state.targetGrade) hint.style.display = 'block';
+    else hint.style.display = 'none';
+  }
+
+  stepDots.forEach(function(d) {
+    var s = parseInt(d.dataset.step);
+    var done = (s === 1 && state.name && state.currentGrade) ||
+               (s === 2 && state.goal && state.targetGrade) ||
+               (s === 3 && state.selectedComps.size > 0) ||
+               (s === 4 && ready);
+    d.classList.toggle('done', !!done);
+  });
+}
+
+// ====================================================================
+// КУРСЫ
+// ====================================================================
+function findCategoryForCompetence(compName) {
+  var cats = Object.keys(data);
+  for (var i = 0; i < cats.length; i++) {
+    if (data[cats[i]][compName]) return cats[i];
+  }
+  return null;
+}
+
+function gradeMatches(courseGradeStr, targetGrade) {
+  if (!targetGrade) return true;
+  if (!courseGradeStr) return true;
+  return courseGradeStr.split(',').map(function(s) { return s.trim(); }).includes(targetGrade);
+}
+
+function dpoShownHere(course, realComp) { return true; }
+
+function getCoursesForHardCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var courseCat = findCategoryForCompetence(realComp);
+  var out = {internal: [], dpo: []};
+  if (!courseCat) return out;
+  var cd = data[courseCat][realComp] || {};
+  ['korpus','dar'].forEach(function(src) {
+    (cd[src] || []).forEach(function(c) {
+      out.internal.push(Object.assign({}, c, {source: src === 'korpus' ? 'КОРУС' : 'ДАР'}));
+    });
+  });
+  (cd.external || []).forEach(function(c) { out.internal.push(Object.assign({}, c, {source: 'Внешний'})); });
+  DPO.filter(function(c) { return c.competencies.includes(realComp) && dpoShownHere(c, realComp); }).forEach(function(c) { out.dpo.push(c); });
+  return out;
+}
+
+function getCoursesForSoftCompetence(compName) {
+  var maps = SOFT_COURSE_MAP[compName] || [];
+  var out = {internal: [], dpo: []};
+  maps.forEach(function(m) {
+    var cd = (data[m.cat] && data[m.cat][m.comp]) || {};
+    ['korpus','dar'].forEach(function(src) {
+      (cd[src] || []).forEach(function(c) {
+        out.internal.push(Object.assign({}, c, {source: src === 'korpus' ? 'КОРУС' : 'ДАР'}));
+      });
+    });
+    DPO.filter(function(c) { return c.competencies.includes(m.comp) && dpoShownHere(c, m.comp); }).forEach(function(c) { out.dpo.push(c); });
+  });
+  return out;
+}
+
+function getCoursesForCompetence(cat, compName) {
+  var isHard = HARD_COMPETENCES.some(function(x) { return x.name === compName; });
+  return isHard ? getCoursesForHardCompetence(compName) : getCoursesForSoftCompetence(compName);
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+  });
+}
+
+function collapsible(title, contentHtml) {
+  if (!contentHtml) return '';
+  return '<div class="ipr-collapsible">'
+    + '<div class="ipr-collapsible-header" data-toggle-collapsible>'
+    + '<span class="ipr-collapsible-arrow">▼</span>'
+    + '<span class="ipr-collapsible-title">' + title + '</span>'
+    + '</div>'
+    + '<div class="ipr-collapsible-body">' + contentHtml + '</div>'
+    + '</div>';
+}
+
+function renderPracticesBlock(compName) {
+  var practices = getPractices(compName);
+  if (!practices.length) return '';
+  var body = '<ul class="ipr-practice-list">';
+  practices.forEach(function(p) { body += '<li>' + escapeHtml(p) + '</li>'; });
+  body += '</ul>';
+  return collapsible('Практика (что делать руками)', body);
+}
+
+function renderCoursesBlock(internalFiltered, dpoFiltered) {
+  if (!internalFiltered.length && !dpoFiltered.length) return '';
+  var body = '';
+  internalFiltered.forEach(function(c) {
+    var srcClass = c.source === 'КОРУС' ? 'korus' : c.source === 'ДАР' ? 'dar' : 'korus';
+    body += '<div class="ipr-course"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a><div class="ipr-course-meta"><span class="src-' + srcClass + '">' + c.source + '</span>' + (c.grade ? '<span>' + escapeHtml(c.grade) + '</span>' : '') + (c.desc ? '<span>' + escapeHtml(c.desc) + '</span>' : '') + '</div></div>';
+  });
+  dpoFiltered.slice(0, 5).forEach(function(c) {
+    body += '<div class="ipr-course"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a><div class="ipr-course-meta"><span class="src-dpo">ДПО · ' + escapeHtml(c.provider) + '</span><span>' + escapeHtml(c.duration) + '</span><span>' + escapeHtml(c.price) + '</span></div></div>';
+  });
+  return collapsible('Курсы', body);
+}
+
+function renderBooksBlock(compName) {
+  var books = getBooksForCompetence(compName);
+  if (!books.length) return '';
+  var body = '<ul class="ipr-res-list">';
+  books.forEach(function(b) {
+    body += '<li data-icon="📖"><a href="' + b.url + '" target="_blank" rel="noopener">' + escapeHtml(b.title) + '</a>';
+    if (b.author) body += '<span class="res-author">— ' + escapeHtml(b.author) + '</span>';
+    if (b.note) body += '<span class="res-note">' + escapeHtml(b.note) + '</span>';
+    body += '</li>';
+  });
+  body += '</ul>';
+  return collapsible('Литература', body);
+}
+
+function renderTrainersBlock(compName) {
+  var trainers = getTrainersForCompetence(compName);
+  if (!trainers.length) return '';
+  var body = '<ul class="ipr-res-list">';
+  trainers.forEach(function(t) {
+    body += '<li data-icon="🎯"><a href="' + t.url + '" target="_blank" rel="noopener">' + escapeHtml(t.name) + '</a>';
+    if (t.desc) body += '<span class="res-note">' + escapeHtml(t.desc) + '</span>';
+    body += '</li>';
+  });
+  body += '</ul>';
+  return collapsible('Тренажёры', body);
+}
+
+function renderCertsBlock(compName) {
+  var certs = getCertsForCompetence(compName);
+  if (!certs.length) return '';
+  var body = '<ul class="ipr-res-list">';
+  certs.forEach(function(c) {
+    body += '<li data-icon="🎓"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a>';
+    if (c.provider) body += '<span class="res-author">— ' + escapeHtml(c.provider) + '</span>';
+    if (c.price) body += '<span class="res-price">' + escapeHtml(c.price) + '</span>';
+    if (c.requirements) body += '<span class="res-meta">' + escapeHtml(c.requirements) + '</span>';
+    body += '</li>';
+  });
+  body += '</ul>';
+  return collapsible('Сертификации', body);
+}
+
+function buildGapItemHtml(item, idx, useGradeFilter, isOffTrack, isCollapsed) {
+  var courses = getCoursesForCompetence(item.cat, item.compName);
+  var internalFiltered = useGradeFilter ? courses.internal.filter(function(c) { return gradeMatches(c.grade, state.targetGrade); }) : courses.internal;
+  var dpoFiltered = useGradeFilter ? courses.dpo.filter(function(c) { return c.grades.includes(state.targetGrade); }) : courses.dpo;
+
+  var cls = 'ipr-gap-item';
+  if (isOffTrack) cls += ' ipr-gap-out-of-track';
+  if (isCollapsed) cls += ' collapsed';
+
+  var html = '<div class="' + cls + '">';
+
+  html += '<div class="ipr-gap-header" data-toggle-gap>';
+  html += '<span class="ipr-gap-arrow">▼</span>';
+  if (isOffTrack) {
+    html += '<span class="ipr-gap-num">•</span>';
+  } else {
+    html += '<span class="ipr-gap-num">' + (idx + 1) + '</span>';
+  }
+  html += '<span class="ipr-gap-name">' + escapeHtml(item.compName) + '</span>';
+  if (isOffTrack) {
+    html += '<span class="ipr-gap-badge-out">опционально</span>';
+  } else {
+    html += '<span class="ipr-gap-delta">пробел ' + item.current + ' → ' + item.target + '</span>';
+  }
+  html += '</div>';
+
+  html += '<div class="ipr-gap-body">';
+
+  var currentDesc = getLevelDescription(item.compName, item.current);
+  var targetDesc = getLevelDescription(item.compName, item.target);
+
+  if (currentDesc || targetDesc) {
+    html += '<div class="ipr-gap-levels">';
+    if (currentDesc) html += '<div><b>Сейчас (' + item.current + '):</b> ' + escapeHtml(currentDesc) + '</div>';
+    if (targetDesc) html += '<div style="margin-top:4px"><b>Цель (' + item.target + '):</b> ' + escapeHtml(targetDesc) + '</div>';
+    html += '</div>';
+  }
+
+  html += renderPracticesBlock(item.compName);
+
+  if (internalFiltered.length || dpoFiltered.length) {
+    html += renderCoursesBlock(internalFiltered, dpoFiltered);
+  } else {
+    html += collapsible('Курсы', '<div class="ipr-empty-note">Материалов пока нет — компетенцию стоит проработать с руководителем или запросить курс у КУ.</div>');
+  }
+
+  html += renderBooksBlock(item.compName);
+  html += renderTrainersBlock(item.compName);
+  html += renderCertsBlock(item.compName);
+
+  html += '</div>';
+  html += '</div>';
+
+  return html;
+}
+
+function buildIprHtml() {
+  var useGradeFilter = state.targetGrade && state.targetGrade !== '';
+  var sp = splitByGap();
+  var html = '';
+
+  var headerName = state.name ? 'ИПР · ' + state.name : 'Индивидуальный план развития';
+  html += '<h2>' + headerName + '</h2>';
+  html += '<div class="ipr-result-sub">Черновик сформирован автоматически. Доработайте формулировки и очерёдность шагов под себя.</div>';
+
+  html += '<div class="ipr-result-meta">';
+  if (state.role) html += '<span>' + state.role + '</span>';
+  if (state.currentGrade) html += '<span class="grade">сейчас: ' + state.currentGrade + '</span>';
+  if (state.targetGrade) html += '<span class="grade">цель: ' + state.targetGrade + '</span>';
+  html += '<span class="goal">' + sp.withGap.length + ' пробелов · ' + sp.withoutGap.length + ' ок</span>';
+  html += '</div>';
+
+  if (state.section1Results && state.section1Results.length) {
+    html += '<div class="ipr-result-section"><h3>Результаты БОР</h3>';
+    html += '<ul class="ipr-res-list" style="margin-top:0">';
+    state.section1Results.forEach(function(item) {
+      html += '<li data-icon="✓" style="background:#f8fafc">' + escapeHtml(item) + '</li>';
+    });
+    html += '</ul></div>';
+  }
+
+  if (state.goals && state.goals.length) {
+    html += '<div class="ipr-result-section"><h3>Цели по SMART <small>' + state.goals.length + '</small></h3>';
+    state.goals.forEach(function(g, i) {
+      html += '<div class="ipr-goal-card">';
+      html += '<div class="ipr-goal-header">';
+      html += '<span class="ipr-goal-num">' + (i + 1) + '</span>';
+      html += '<span class="ipr-goal-title">' + escapeHtml(g.goal) + '</span>';
+      if (g.deadline) html += '<span class="ipr-goal-deadline">до ' + g.deadline + '</span>';
+      html += '</div>';
+      if (g.smart) {
+        html += '<div class="ipr-smart-grid">';
+        ['S','M','A','R','T'].forEach(function(letter) {
+          if (g.smart[letter]) {
+            html += '<div class="ipr-smart-cell">';
+            html += '<div class="ipr-smart-letter">' + letter + '</div>';
+            html += '<div class="ipr-smart-text">' + escapeHtml(g.smart[letter]) + '</div>';
+            html += '</div>';
+          }
+        });
+        html += '</div>';
+      } else if (g.comment) {
+        html += '<div class="ipr-goal-comment">' + escapeHtml(g.comment) + '</div>';
+      }
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  var totalGaps = sp.withGap.length + sp.withGapOffTrack.length;
+
+  if (sp.withGap.length) {
+    html += '<div class="ipr-result-section"><h3>Пробелы → что закрывать <small>в порядке приоритета</small></h3>';
+    sp.withGap.forEach(function(item, idx) {
+      var isCollapsed = totalGaps > 1 && idx > 0;
+      html += buildGapItemHtml(item, idx, useGradeFilter, false, isCollapsed);
+    });
+    html += '</div>';
+  }
+
+  if (sp.withGapOffTrack.length) {
+    html += '<div class="ipr-result-section"><h3>Опционально, вне типового трека <small>ИИ-компетенции</small></h3>';
+    html += '<div class="ipr-empty-note" style="margin-bottom:12px">Эти компетенции не входят в типовой трек БА.</div>';
+    sp.withGapOffTrack.forEach(function(item, idx) {
+      var isCollapsed = sp.withGap.length > 0 || (sp.withGapOffTrack.length > 1 && idx > 0);
+      html += buildGapItemHtml(item, idx, useGradeFilter, true, isCollapsed);
+    });
+    html += '</div>';
+  }
+
+  if (sp.withoutGap.length) {
+    html += '<div class="ipr-result-section"><h3>Уже на целевом уровне <small>поддерживать</small></h3><div style="display:flex;flex-wrap:wrap;gap:6px">';
+    sp.withoutGap.forEach(function(item) {
+      html += '<span style="padding:4px 12px;background:#dcfce7;color:#166534;border-radius:12px;font-size:12.5px;font-weight:600">' + escapeHtml(item.compName) + ' ✓</span>';
+    });
+    html += '</div></div>';
+  }
+
+  if (sp.unknown.length) {
+    html += '<div class="ipr-result-section"><h3>Без оценки уровня</h3>';
+    html += '<div class="ipr-empty-note">Вы отметили эти компетенции, но не указали текущий уровень или целевой грейд.</div>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';
+    sp.unknown.forEach(function(item) {
+      html += '<span style="padding:4px 12px;background:#e2e8f0;color:#64748b;border-radius:12px;font-size:12.5px;font-weight:600">' + escapeHtml(item.compName) + '</span>';
+    });
+    html += '</div></div>';
+  }
+
+  html += '<div class="ipr-result-section"><h3>Что делать дальше</h3><div class="ipr-next-steps">';
+  html += '<strong>1.</strong> Согласуйте черновик с руководителем на встрече о развитии.<br>';
+  html += '<strong>2.</strong> Уточните формулировку цели по SMART: срок, метрика, результат.<br>';
+  html += '<strong>3.</strong> Пробелы закрывайте по порядку — от приоритета 1 к последнему.<br>';
+  html += '<strong>4.</strong> По каждому пробелу забронируйте 1 курс, 1–2 практики, книгу.<br>';
+  html += '<strong>5.</strong> Пересматривайте план раз в квартал на встречах с руководителем.';
+  html += '</div></div>';
+
+  html += '<div class="ipr-result-actions">';
+  html += '<button class="ipr-btn" id="modalDownloadDocxBtn">⬇ Скачать .docx</button>';
+  html += '<button class="ipr-btn secondary" id="modalDownloadBtn">Скачать .md</button>';
+  html += '<button class="ipr-btn secondary" id="modalCloseBtn">Закрыть</button>';
+  html += '</div>';
+
+  return html;
+}
+
+function openResult() {
+  resultBody.innerHTML = '<button class="ipr-result-close" id="modalCloseBtnTop">✕</button>' + buildIprHtml();
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modalCloseBtn').addEventListener('click', closeResult);
+  document.getElementById('modalCloseBtnTop').addEventListener('click', closeResult);
+  document.getElementById('modalDownloadBtn').addEventListener('click', downloadIpr);
+  document.getElementById('modalDownloadDocxBtn').addEventListener('click', downloadDocx);
+}
+function closeResult() {
+  overlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+overlay.addEventListener('click', function(e) { if (e.target === overlay) closeResult(); });
+$('openResultBtn').addEventListener('click', openResult);
+
+resultBody.addEventListener('click', function(e) {
+  var gapHeader = e.target.closest('.ipr-gap-header[data-toggle-gap]');
+  if (gapHeader && resultBody.contains(gapHeader)) {
+    var gapItem = gapHeader.closest('.ipr-gap-item');
+    if (gapItem) gapItem.classList.toggle('collapsed');
+    return;
+  }
+  var colHeader = e.target.closest('.ipr-collapsible-header[data-toggle-collapsible]');
+  if (colHeader && resultBody.contains(colHeader)) {
+    var col = colHeader.closest('.ipr-collapsible');
+    if (col) col.classList.toggle('collapsed');
+    return;
+  }
+});
+
+function buildIprText() {
+  var useGradeFilter = state.targetGrade && state.targetGrade !== '';
+  var sp = splitByGap();
+  var lines = [];
+  lines.push('# ИПР' + (state.name ? ' — ' + state.name : ''));
+  lines.push('');
+  if (state.role) lines.push('**Роль:** ' + state.role);
+  if (state.currentGrade) lines.push('**Текущий грейд:** ' + state.currentGrade);
+  if (state.targetGrade) lines.push('**Целевой грейд:** ' + state.targetGrade);
+  lines.push('');
+
+  if (state.section1Results && state.section1Results.length) {
+    lines.push('## Результаты БОР');
+    lines.push('');
+    state.section1Results.forEach(function(item) { lines.push('- ' + item); });
+    lines.push('');
+  }
+
+  if (state.goals && state.goals.length) {
+    lines.push('## Цели по SMART');
+    lines.push('');
+    state.goals.forEach(function(g, i) {
+      lines.push('### ' + (i + 1) + '. ' + g.goal + (g.deadline ? ' (до ' + g.deadline + ')' : ''));
+      lines.push('');
+      if (g.smart) {
+        ['S','M','A','R','T'].forEach(function(letter) {
+          if (g.smart[letter]) {
+            var label = {S:'Specific', M:'Measurable', A:'Achievable', R:'Relevant', T:'Time-bound'}[letter];
+            lines.push('- **' + letter + ' (' + label + '):** ' + g.smart[letter]);
+          }
+        });
+        lines.push('');
+      }
+      if (g.comment) {
+        lines.push('_' + g.comment + '_');
+        lines.push('');
+      }
+    });
+  }
+
+  function appendResources(compName) {
+    var books = getBooksForCompetence(compName);
+    if (books.length) {
+      lines.push('**Литература:**');
+      books.forEach(function(b) {
+        var suffix = b.author ? ' — ' + b.author : '';
+        lines.push('- [' + b.title + '](' + b.url + ')' + suffix);
+      });
+      lines.push('');
+    }
+    var trainers = getTrainersForCompetence(compName);
+    if (trainers.length) {
+      lines.push('**Тренажёры:**');
+      trainers.forEach(function(t) {
+        var suffix = t.desc ? ' — ' + t.desc : '';
+        lines.push('- [' + t.name + '](' + t.url + ')' + suffix);
+      });
+      lines.push('');
+    }
+    var certs = getCertsForCompetence(compName);
+    if (certs.length) {
+      lines.push('**Сертификации:**');
+      certs.forEach(function(c) {
+        var suffix = (c.provider ? ' — ' + c.provider : '') + (c.price ? ', ' + c.price : '');
+        lines.push('- [' + c.name + '](' + c.url + ')' + suffix);
+        if (c.requirements) lines.push('  - ' + c.requirements);
+      });
+      lines.push('');
+    }
+  }
+
+  if (sp.withGap.length) {
+    lines.push('## Пробелы → что закрывать (в порядке приоритета)');
+    lines.push('');
+    sp.withGap.forEach(function(item, idx) {
+      lines.push('### ' + (idx + 1) + '. ' + item.compName + ' (пробел: ' + item.current + ' → ' + item.target + ')');
+      lines.push('');
+
+      var currentDesc = getLevelDescription(item.compName, item.current);
+      var targetDesc = getLevelDescription(item.compName, item.target);
+      if (currentDesc) lines.push('**Сейчас (' + item.current + '):** ' + currentDesc);
+      if (targetDesc) lines.push('**Цель (' + item.target + '):** ' + targetDesc);
+      if (currentDesc || targetDesc) lines.push('');
+
+      var practices = getPractices(item.compName);
+      if (practices.length) {
+        lines.push('**Практика (что делать руками):**');
+        practices.forEach(function(p) { lines.push('- ' + p); });
+        lines.push('');
+      }
+
+      var courses = getCoursesForCompetence(item.cat, item.compName);
+      var internalFiltered = useGradeFilter ? courses.internal.filter(function(c) { return gradeMatches(c.grade, state.targetGrade); }) : courses.internal;
+      var dpoFiltered = useGradeFilter ? courses.dpo.filter(function(c) { return c.grades.includes(state.targetGrade); }) : courses.dpo;
+
+      if (internalFiltered.length) {
+        lines.push('**Курсы КОРУС/ДАР/Внешние:**');
+        internalFiltered.forEach(function(c) { lines.push('- [' + c.name + '](' + c.url + ') — ' + c.source + (c.grade ? ', ' + c.grade : '')); });
+        lines.push('');
+      }
+      if (dpoFiltered.length) {
+        lines.push('**Внешние курсы (ДПО):**');
+        dpoFiltered.forEach(function(c) { lines.push('- [' + c.name + '](' + c.url + ') — ' + c.provider + ', ' + c.duration + ', ' + c.price); });
+        lines.push('');
+      }
+      if (!internalFiltered.length && !dpoFiltered.length) {
+        lines.push('_Материалы не найдены — проработать с руководителем._');
+        lines.push('');
+      }
+
+      appendResources(item.compName);
+    });
+  }
+
+  if (sp.withoutGap.length) {
+    lines.push('## Уже на целевом уровне');
+    lines.push('');
+    sp.withoutGap.forEach(function(item) { lines.push('- ' + item.compName + ' ✓'); });
+    lines.push('');
+  }
+
+  if (sp.unknown.length) {
+    lines.push('## Без оценки уровня');
+    lines.push('');
+    sp.unknown.forEach(function(item) { lines.push('- ' + item.compName); });
+    lines.push('');
+  }
+
+  lines.push('## Дальнейшие шаги');
+  lines.push('- Согласовать с руководителем');
+  lines.push('- Уточнить цель по SMART');
+  lines.push('- Пробелы закрывать по порядку — от приоритета 1 к последнему');
+  lines.push('- По каждому пробелу — 1 курс, 1–2 практики и книгу');
+  lines.push('- Пересматривать раз в квартал');
+  return lines.join('\n');
+}
+
+function downloadIpr() {
+  var text = buildIprText();
+  var blob = new Blob([text], {type: 'text/markdown;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  var safeName = (state.name || 'employee').replace(/[^\wа-яА-Я\-]/g, '_') || 'employee';
+  a.href = url;
+  a.download = 'IPR_' + safeName + '_' + new Date().toISOString().slice(0, 10) + '.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+$('downloadBtn').addEventListener('click', downloadIpr);
+
+// ====================================================================
+// ГЕНЕРАЦИЯ .DOCX ЧЕРЕЗ ЛОКАЛЬНЫЙ СЕРВЕР
+// ====================================================================
+async function downloadDocx() {
+  try {
+    const payload = {
+      employee: {
+        name: state.name || 'Сотрудник',
+        position: state.role || '',
+        manager: 'Бизякина Наталья',
+        mentor: 'Самарцева София',
+        current_grade: state.currentGrade || 'Junior',
+        target_grade: state.targetGrade || 'Middle'
+      },
+      section_1_results: state.section1Results || [],
+      section_2_goals: state.goals || [],
+      section_3_actions: []
+    };
+
+    state.selectedComps.forEach(key => {
+      const parts = key.split('::');
+      const compName = parts.slice(1).join('::');
+      const current = state.levels[key];
+      const target = state.targetLevels[key];
+      const isHard = HARD_COMPETENCES.some(x => x.name === compName);
+
+      const indicator = (current !== undefined && target !== undefined)
+        ? `${current} → ${target}` : '';
+
+            var actData = (state.actionsData && state.actionsData[key]) || {};
+
+      payload.section_3_actions.push({
+        competency: compName,
+        type: isHard ? 'hard' : 'soft',
+        indicator: indicator,
+        methods: actData.methods || 'Курсы корпоративного университета, практика на проекте',
+        actions: actData.actions && actData.actions.length
+          ? actData.actions
+          : ['Проработать компетенцию на текущем проекте'],
+        who_helps: actData.who_helps || 'Наставник / Руководитель',
+        deadline: actData.deadline || '2027-10-12',
+        goal_id: actData.goal_id || 1
+      });
+    });
+
+    console.log('📤 Отправляем на сервер:', payload);
+
+    const res = await fetch('http://localhost:8000/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error('Сервер вернул ' + res.status + ': ' + err);
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ИПР_' + (state.name || 'employee').replace(/\s+/g, '_') + '.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    console.log('✅ Документ скачан');
+  } catch (err) {
+    alert('❌ Не удалось сгенерировать .docx:\n' + err.message + '\n\nПроверь:\n1. Сервер запущен: python server_ipr.py\n2. Шаблон лежит в test_case/shablon_ipr.docx');
+    console.error(err);
+  }
+}
+
+// ====================================================================
+// ЗАГРУЗКА ИПР ИЗ JSON
+// ====================================================================
+function normalizeName(s) {
+  return String(s).toLowerCase().replace(/ё/g, 'е').replace(/[^a-zа-я0-9]/g, '');
+}
+
+function loadIprFromJson(json) {
+  if (json.employee) {
+    state.name = json.employee.name || '';
+    state.role = json.employee.position || '';
+    state.currentGrade = json.employee.current_grade || '';
+    state.targetGrade = json.employee.target_grade || '';
+  }
+
+  state.section1Results = json.section_1_results || [];
+
+  if (json.section_2_goals && json.section_2_goals.length) {
+    state.goals = json.section_2_goals;
+    state.goal = json.section_2_goals.map(function(g) { return g.goal; }).join('. ');
+  }
+
+  state.selectedComps = new Set();
+  state.levels = {};
+  state.targetLevels = {};
+  state.compTypes = {};
+  state.actionsData = {};
+
+  if (json.section_3_actions && json.section_3_actions.length) {
+    json.section_3_actions.forEach(function(action) {
+      var norm = normalizeName(action.competency);
+
+      var hardMatch = HARD_COMPETENCES.find(function(x) { return normalizeName(x.name) === norm; });
+      var softMatch = SOFT_COMPETENCES.find(function(x) { return normalizeName(x.name) === norm; });
+
+      var isSoftType = action.type === 'soft';
+      var isHardType = action.type === 'hard';
+
+      var cat, realName, finalIsHard;
+      if (isSoftType && softMatch) {
+        cat = softMatch.cat; realName = softMatch.name; finalIsHard = false;
+      } else if (isHardType && hardMatch) {
+        cat = hardMatch.cat; realName = hardMatch.name; finalIsHard = true;
+      } else if (softMatch && !hardMatch) {
+        cat = softMatch.cat; realName = softMatch.name; finalIsHard = false;
+      } else if (hardMatch && !softMatch) {
+        cat = hardMatch.cat; realName = hardMatch.name; finalIsHard = true;
+      } else if (hardMatch && softMatch) {
+        var indicatorLooksSoft = /junior|middle|senior|lead/i.test(action.indicator || '');
+        if (indicatorLooksSoft) { cat = softMatch.cat; realName = softMatch.name; finalIsHard = false; }
+        else { cat = hardMatch.cat; realName = hardMatch.name; finalIsHard = true; }
+      } else {
+        console.warn('Компетенция не найдена в справочнике:', action.competency);
+        return;
+      }
+
+      var key = cat + '::' + realName;
+      state.selectedComps.add(key);
+      state.compTypes[key] = finalIsHard ? 'hard' : 'soft';
+            // Сохраняем полные данные actions из JSON
+      if (!state.actionsData) state.actionsData = {};
+      state.actionsData[key] = {
+        methods: action.methods || '',
+        actions: action.actions || [],
+        who_helps: action.who_helps || '',
+        deadline: action.deadline || '',
+        goal_id: action.goal_id || 1
+      };
+
+      if (action.indicator) {
+        var parts = action.indicator.split('→').map(function(s) { return s.trim(); });
+        if (parts.length === 2) {
+          var cur = parseLevelValue(parts[0]);
+          var tar = parseLevelValue(parts[1]);
+          if (cur !== null) state.levels[key] = cur;
+          if (tar !== null) state.targetLevels[key] = tar;
+        }
+      }
+    });
+  }
+
+  var nameEl = document.getElementById('userName');
+  var roleEl = document.getElementById('userRole');
+  var goalEl = document.getElementById('userGoal');
+  if (nameEl) nameEl.value = state.name;
+  if (roleEl) roleEl.value = state.role;
+  if (goalEl) goalEl.value = state.goal;
+
+  document.querySelectorAll('#currentGradeChips .ipr-chip').forEach(function(c) {
+    c.classList.toggle('active', c.dataset.grade === state.currentGrade);
+  });
+  document.querySelectorAll('#targetGradeChips .ipr-chip').forEach(function(c) {
+    c.classList.toggle('active', c.dataset.grade === state.targetGrade);
+  });
+
+  renderCompCloud();
+  updatePreview();
+}
+
+(function() {
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.style.display = 'none';
+  document.body.appendChild(input);
+
+  input.addEventListener('change', function(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try {
+        var json = JSON.parse(ev.target.result);
+        loadIprFromJson(json);
+        alert('✅ Черновик загружен: ' + ((json.employee && json.employee.name) || 'без имени'));
+      } catch (err) {
+        alert('❌ Не удалось прочитать JSON:\n' + err.message);
+        console.error(err);
+      }
+    };
+    reader.readAsText(file);
+    input.value = '';
+  });
+
+  document.getElementById('loadJsonBtn').addEventListener('click', function() {
+    input.click();
+  });
+})();
+
+renderCompCloud();
+updatePreview();
+</script>
+</body>
+</html>

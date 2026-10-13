@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог развития | KORUS Education</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--brand:#6366f1;--brand-dark:#4f46e5;--brand-soft:#f4f0ff;--brand-line:#b9a8ff;--ink:#141414;--muted:#667085;--line:#d9dee8;--soft:#f6f7fb;--dark:#212f45;--green:#35b978;--yellow:#d8bf2a;--red:#ea6b72}
+html,body{font-family:'Inter','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f4f7fb;color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--brand-dark);text-decoration:none}a:hover{text-decoration:underline}
+.k-header{background:var(--dark);color:#fff;padding:14px 0;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:100}
+.k-header-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:18px}
+.k-logo{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:18px}
+.k-logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#F9423A 0%,#c252f7 50%,#7949F4 100%);display:grid;place-items:center;font-weight:900;font-size:15px;color:#fff}
+.k-nav{margin-left:auto;display:flex;gap:22px;font-size:14px;font-weight:500;color:rgba(255,255,255,.78)}
+.k-nav a{color:inherit}.k-nav a:hover{color:#fff;text-decoration:none}
+.k-nav a.active{color:#fff}
+.k-container{max-width:1400px;margin:0 auto;padding:30px 24px 60px}
+.k-hero{background:linear-gradient(135deg,#5b35d5 0%,#17161c 70%);border-radius:16px;padding:30px 32px;color:#fff;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.k-hero h1{font-size:clamp(24px,3vw,36px);line-height:1.1;font-weight:800;margin-bottom:8px}
+.k-hero p{color:rgba(255,255,255,.8);max-width:720px;font-size:15px}
+.k-hero-badge{padding:10px 16px;border:1px solid rgba(255,255,255,.25);border-radius:10px;font-size:13px;color:rgba(255,255,255,.85)}
+.k-hero-cta{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;background:#fff;color:#5b35d5;border-radius:12px;font-size:14px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 6px 20px rgba(0,0,0,.18);margin-top:14px}
+.k-hero-cta:hover{background:#f4f0ff;transform:translateY(-1px);text-decoration:none;color:#4f46e5;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.k-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.k-chip{padding:7px 16px;border-radius:20px;background:#fff;border:1px solid var(--line);cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;color:#334155}
+.k-chip:hover{border-color:var(--brand-line);color:var(--brand-dark)}
+.k-chip.active{background:var(--brand);color:#fff;border-color:var(--brand);box-shadow:0 4px 12px rgba(99,102,241,.3)}
+.k-layout{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.k-sidebar{flex:0 0 280px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 4px 20px rgba(15,23,42,.04);position:sticky;top:90px;max-height:calc(100vh - 120px);overflow-y:auto}
+.k-sidebar h2{font-size:12px;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);margin-bottom:12px;font-weight:700}
+.k-category-title{font-size:13px;font-weight:700;color:var(--brand-dark);margin:16px 0 6px;padding-left:10px;border-left:3px solid var(--brand)}
+.k-sidebar ul{list-style:none}
+.k-sidebar li{padding:7px 12px 7px 18px;margin-bottom:2px;border-radius:8px;cursor:pointer;transition:all .2s;font-size:13.5px;color:#334155}
+.k-sidebar li:hover{background:var(--soft);color:var(--brand-dark)}
+.k-sidebar li.active{background:var(--brand-soft);color:var(--brand-dark);font-weight:600}
+.k-main{flex:1;min-width:0}
+.k-search-box{width:100%;padding:12px 18px;border:1px solid var(--line);border-radius:12px;font-size:15px;margin-bottom:20px;outline:none;transition:all .2s;background:#fff;font-family:inherit}
+.k-search-box:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(99,102,241,.12)}
+.k-competence-group{margin-bottom:32px}
+.k-competence-title{font-size:22px;font-weight:700;margin-bottom:16px;color:var(--ink);padding-bottom:10px;border-bottom:2px solid var(--line)}
+.k-source-block{margin-bottom:22px}
+.k-source-header{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;color:#334155;margin-bottom:12px}
+.k-source-header .k-source-dot{width:10px;height:10px;border-radius:50%;background:var(--brand)}
+.k-source-header .k-source-dot.dar{background:var(--green)}
+.k-source-header .k-source-dot.dpo{background:#8b5cf6}
+.k-source-header .k-source-dot.ext{background:var(--yellow)}
+.k-source-header .k-source-dot.book{background:#0ea5e9}
+.k-source-header .k-source-dot.trainer{background:#f59e0b}
+.k-source-header .k-source-dot.cert{background:#10b981}
+.k-course-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.k-course-card{background:#fff;border-radius:14px;padding:18px;border:1px solid var(--line);transition:all .2s;position:relative;cursor:pointer;display:flex;flex-direction:column;min-height:110px}
+.k-course-card:hover{border-color:var(--brand-line);box-shadow:0 8px 24px rgba(99,102,241,.12);transform:translateY(-2px)}
+.k-course-card a{text-decoration:none;color:var(--ink);font-weight:600;display:block;margin-bottom:8px;font-size:14.5px;line-height:1.35}
+.k-course-card a:hover{color:var(--brand-dark)}
+.k-course-card .k-meta{font-size:11.5px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap;margin-top:auto}
+.k-course-card .k-meta span{padding:3px 9px;border-radius:12px;font-weight:600}
+.k-course-card .k-grade{background:var(--brand-soft);color:var(--brand-dark)}
+.k-course-card .k-source-tag{background:#eef2f6;color:#475569}
+.k-course-card .k-provider{background:#e0e7ff;color:#3730a3}
+.k-course-card .k-duration{background:#f1f5f9;color:#475569}
+.k-course-card .k-price{background:#ecfdf3;color:#166534}
+.k-course-card .k-author{background:#e0f2fe;color:#075985}
+.k-course-card .k-note{display:block;font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:400}
+.k-popover{position:absolute;bottom:calc(100% + 12px);left:50%;transform:translateX(-50%);background:var(--dark);color:#fff;padding:12px 16px;border-radius:10px;font-size:13px;line-height:1.5;width:max-content;max-width:320px;white-space:normal;box-shadow:0 12px 30px rgba(0,0,0,.25);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;pointer-events:none;z-index:10;text-align:left;font-weight:400}
+.k-popover::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border-width:6px;border-style:solid;border-color:var(--dark) transparent transparent transparent}
+.k-course-card:hover .k-popover{opacity:1;visibility:visible}
+.k-empty{color:#94a3b8;font-style:italic;padding:20px 0}
+.chat-bubble{position:fixed;bottom:30px;right:30px;width:60px;height:60px;background:var(--brand);border-radius:50%;box-shadow:0 6px 20px rgba(99,102,241,.4);display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;z-index:999;transition:transform .2s;color:#fff;font-size:26px}
+.chat-bubble:hover{transform:scale(1.05);background:var(--brand-dark)}
+.chat-modal{position:fixed;bottom:100px;right:30px;width:400px;max-width:calc(100vw - 40px);max-height:500px;background:#fff;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.2);display:none;flex-direction:column;z-index:1000;overflow:hidden;font-size:14px;border:1px solid var(--line)}
+.chat-modal.open{display:flex}
+.chat-header{background:linear-gradient(135deg,#5b35d5,#17161c);color:#fff;padding:16px 20px;font-weight:600;display:flex;justify-content:space-between;align-items:center}
+.chat-header button{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1}
+.chat-messages{padding:16px 20px;flex:1;overflow-y:auto;background:var(--soft);display:flex;flex-direction:column;gap:10px;max-height:300px}
+.chat-message{max-width:85%;padding:10px 14px;border-radius:18px;line-height:1.5;word-wrap:break-word;white-space:pre-wrap;font-size:13.5px}
+.chat-message.bot{background:#e2e8f0;color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+.chat-message.user{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.chat-message .course-link{display:block;color:var(--brand-dark);text-decoration:none;font-weight:500;margin:4px 0}
+.chat-message .course-link:hover{text-decoration:underline}
+.course-list{margin-top:8px}.course-list li{list-style:none;margin-bottom:6px}
+.course-list a{color:var(--brand-dark);text-decoration:none;font-weight:500}.course-list a:hover{text-decoration:underline}
+.chat-input{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--line);background:#fff}
+.chat-input input{flex:1;padding:8px 12px;border:1px solid var(--line);border-radius:20px;font-size:14px;outline:none;font-family:inherit}
+.chat-input input:focus{border-color:var(--brand)}
+.chat-input button{padding:8px 16px;background:var(--brand);color:#fff;border:none;border-radius:20px;font-weight:600;cursor:pointer;transition:background .2s}
+.chat-input button:hover{background:var(--brand-dark)}
+.k-footer{background:var(--dark);color:rgba(255,255,255,.7);padding:26px 0;margin-top:40px}
+.k-footer-inner{max-width:1400px;margin:0 auto;padding:0 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:13px}
+.k-footer a{color:rgba(255,255,255,.85)}.k-footer a:hover{color:#fff}
+@media (max-width:900px){.k-sidebar{position:static;flex:1 1 100%;max-height:none}.k-hero{padding:22px}.k-nav{display:none}}
+@media (max-width:640px){.chat-modal{width:calc(100vw - 20px);right:10px;bottom:90px;max-height:70vh}.k-container{padding:20px 14px 40px}}
+</style>
+</head>
+<body>
+
+<header class="k-header">
+<div class="k-header-inner">
+<a href="competencies-courses.html" class="k-logo"><span class="k-logo-mark">КУ</span><span>КОРУС Education</span></a>
+<nav class="k-nav">
+<a href="competencies-courses.html" class="active">Курсы</a>
+<a href="#">Power.UP</a>
+<a href="#">О нас</a>
+<a href="ipr-builder.html">Конструктор ИПР</a>
+</nav>
+</div>
+</header>
+
+<div class="k-container">
+<section class="k-hero">
+<div>
+<h1>Каталог развития</h1>
+<p>Выберите грейд и компетенцию — соберём подборку курсов КОРУС, ДАР, внешних платформ ДПО, книг, тренажёров и сертификаций.</p>
+<a href="ipr-builder.html" class="k-hero-cta">Собрать ИПР →</a>
+</div>
+<div class="k-hero-badge">Обновляется по вторникам и пятницам</div>
+</section>
+
+<div class="k-chips" id="gradeChips">
+<div class="k-chip" data-grade="all">Все</div>
+<div class="k-chip" data-grade="Junior">Junior</div>
+<div class="k-chip" data-grade="Middle">Middle</div>
+<div class="k-chip" data-grade="Senior">Senior</div>
+<div class="k-chip active" data-grade="Lead">Lead</div>
+<div class="k-chip" data-grade="Прочее">Прочее</div>
+</div>
+
+<div class="k-layout">
+<aside class="k-sidebar">
+<h2>Компетенции</h2>
+<div id="categoryContainer"></div>
+</aside>
+<main class="k-main">
+<input type="text" class="k-search-box" id="searchInput" placeholder="Поиск по названию курса, книги, тренажёра...">
+<div id="coursesContainer"></div>
+</main>
+</div>
+</div>
+
+<footer class="k-footer">
+<div class="k-footer-inner">
+<div>© 2019 – 2026 Корпоративный университет КОРУС Консалтинг</div>
+<div><a href="#">Сводка хранения данных</a> · <a href="#">Справка</a> · <a href="#">Telegram</a></div>
+</div>
+</footer>
+
+<button class="chat-bubble" id="chatBubble" aria-label="Открыть чат-помощник">💬</button>
+<div class="chat-modal" id="chatModal">
+<div class="chat-header"><span>🤖 Помощник по курсам</span><button id="closeChatBtn">✕</button></div>
+<div class="chat-messages" id="chatMessages">
+<div class="chat-message bot">👋 Я помогу подобрать курсы под ваш запрос! Напишите, что ищете (например, «SQL для мидла»).</div>
+</div>
+<div class="chat-input">
+<input type="text" id="chatInput" placeholder="Ваш вопрос..." autofocus>
+<button id="chatSendBtn">Отправить</button>
+</div>
+</div>
+
+<script src="catalog.js"></script>
+<script src="catalog-courses.js"></script>
+<script>
+const data = window.KORUS_COURSES.data;
+const DPO_RAW = window.KORUS_COURSES.DPO_RAW;
+
+const GRADE_MAP = {J:'Junior',M:'Middle',S:'Senior',L:'Lead',P:'Прочее'};
+const DPO = DPO_RAW.map(function(r) {
+  return {
+    name: r[0], url: r[1], provider: r[2], duration: r[3], price: r[4],
+    grades: r[5].split(',').map(function(g) { return GRADE_MAP[g.trim()] || g.trim(); }),
+    competencies: r[6].split('|').map(function(s) { return s.trim(); }),
+    type: r[7]
+  };
+});
+
+const COMPETENCE_ALIASES = {
+  "Анализ и формулирование требований (ФТ)": "Анализ и формулирование ФТ",
+  "Анализ и формулирование требований (НФТ)": "Анализ и формулирование НФТ",
+  "Управление ожиданиями и информирование о трудностях": "Управление ожиданиями",
+  "Подбор типа графика под задачу": "Подбор типа графика / визуализация",
+  "Найм и оценка уровня кандидатов/сотрудников": "Найм и оценка",
+  "Презентация результатов работы": "Презентация результатов"
+};
+
+function getBooksForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.books) || {};
+  var list = map[realComp] || map[compName] || [];
+  var defaultUrl = (KORUS_CATALOG && KORUS_CATALOG.bookUrl) || "";
+  return list.map(function(b) { return Object.assign({}, b, {url: b.url || defaultUrl}); });
+}
+function getTrainersForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.trainers) || {};
+  return map[realComp] || map[compName] || [];
+}
+function getCertsForCompetence(compName) {
+  var realComp = COMPETENCE_ALIASES[compName] || compName;
+  var map = (KORUS_CATALOG && KORUS_CATALOG.certs) || {};
+  return map[realComp] || map[compName] || [];
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, function(c) {
+    return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+  });
+}
+
+const categories = Object.keys(data);
+const categoryContainer = document.getElementById('categoryContainer');
+const gradeChips = document.querySelectorAll('.k-chip');
+const searchInput = document.getElementById('searchInput');
+const coursesContainer = document.getElementById('coursesContainer');
+
+let selectedCompetence = null;
+let selectedGrade = 'all';
+
+function renderCategories() {
+  categoryContainer.innerHTML = '';
+  categories.forEach(function(category) {
+    var catTitle = document.createElement('div');
+    catTitle.className = 'k-category-title';
+    catTitle.textContent = category;
+    categoryContainer.appendChild(catTitle);
+    var ul = document.createElement('ul');
+    Object.keys(data[category]).forEach(function(comp) {
+      var li = document.createElement('li');
+      li.textContent = comp;
+      li.dataset.competence = comp;
+      li.addEventListener('click', function() {
+        document.querySelectorAll('#categoryContainer li').forEach(function(el) { el.classList.remove('active'); });
+        this.classList.add('active');
+        selectedCompetence = comp;
+        renderCourses();
+      });
+      ul.appendChild(li);
+    });
+    categoryContainer.appendChild(ul);
+  });
+  if (selectedCompetence) {
+    var li = document.querySelector('#categoryContainer li[data-competence="' + selectedCompetence + '"]');
+    if (li) li.classList.add('active');
+  } else {
+    var firstLi = document.querySelector('#categoryContainer li');
+    if (firstLi) {
+      firstLi.classList.add('active');
+      selectedCompetence = firstLi.dataset.competence;
+      renderCourses();
+    }
+  }
+}
+
+function findCategoryForCompetence(competence) {
+  for (var i = 0; i < categories.length; i++) {
+    if (data[categories[i]][competence]) return categories[i];
+  }
+  return null;
+}
+
+function dpoShownHere(course, realComp) {
+  return true;
+}
+
+function getDPOForCompetence(competence, grade) {
+  var realComp = COMPETENCE_ALIASES[competence] || competence;
+  return DPO.filter(function(c) {
+    if (!c.competencies.includes(realComp) && !c.competencies.includes(competence)) return false;
+    if (!dpoShownHere(c, realComp)) return false;
+    if (grade === 'all') return true;
+    return c.grades.includes(grade);
+  });
+}
+
+function renderCourses() {
+  if (!selectedCompetence) {
+    coursesContainer.innerHTML = '<div class="k-empty">Выберите компетенцию</div>';
+    return;
+  }
+  var cat = findCategoryForCompetence(selectedCompetence);
+  var compData = data[cat][selectedCompetence];
+  var searchTerm = searchInput.value.trim().toLowerCase();
+
+  var filterByName = function(arr) {
+    if (!searchTerm) return arr;
+    return arr.filter(function(c) { return c.name.toLowerCase().includes(searchTerm); });
+  };
+  var filterByGrade = function(arr) {
+    if (selectedGrade === 'all') return arr;
+    return arr.filter(function(c) { return c.grade.split(',').map(function(g) { return g.trim(); }).includes(selectedGrade); });
+  };
+
+  var korpus = filterByName(filterByGrade(compData.korpus || []));
+  var dar = filterByName(filterByGrade(compData.dar || []));
+  var external = filterByName(compData.external || []);
+  var dpo = filterByName(getDPOForCompetence(selectedCompetence, selectedGrade));
+
+  var books = getBooksForCompetence(selectedCompetence);
+  var trainers = getTrainersForCompetence(selectedCompetence);
+  var certs = getCertsForCompetence(selectedCompetence);
+  if (searchTerm) {
+    books = books.filter(function(b) { return (b.title || '').toLowerCase().includes(searchTerm) || (b.author || '').toLowerCase().includes(searchTerm); });
+    trainers = trainers.filter(function(t) { return (t.name || '').toLowerCase().includes(searchTerm); });
+    certs = certs.filter(function(c) { return (c.name || '').toLowerCase().includes(searchTerm) || (c.provider || '').toLowerCase().includes(searchTerm); });
+  }
+
+  var html = '<div class="k-competence-group"><div class="k-competence-title">' + escapeHtml(selectedCompetence) + '</div>';
+
+  if (korpus.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot"></span>Курсы КОРУС</div><div class="k-course-grid">';
+    korpus.forEach(function(c) { html += buildCourseCard(c, 'КОРУС'); });
+    html += '</div></div>';
+  }
+  if (dar.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot dar"></span>Курсы ДАР</div><div class="k-course-grid">';
+    dar.forEach(function(c) { html += buildCourseCard(c, 'ДАР'); });
+    html += '</div></div>';
+  }
+  if (external.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot ext"></span>Внешние курсы (бесплатные)</div><div class="k-course-grid">';
+    external.forEach(function(c) { html += buildExternalCard(c); });
+    html += '</div></div>';
+  }
+  if (dpo.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot dpo"></span>Курсы ДПО</div><div class="k-course-grid">';
+    dpo.forEach(function(c) { html += buildDPOCard(c); });
+    html += '</div></div>';
+  }
+  if (books.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot book"></span>Литература</div><div class="k-course-grid">';
+    books.forEach(function(b) { html += buildBookCard(b); });
+    html += '</div></div>';
+  }
+  if (trainers.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot trainer"></span>Тренажёры</div><div class="k-course-grid">';
+    trainers.forEach(function(t) { html += buildTrainerCard(t); });
+    html += '</div></div>';
+  }
+  if (certs.length) {
+    html += '<div class="k-source-block"><div class="k-source-header"><span class="k-source-dot cert"></span>Сертификации</div><div class="k-course-grid">';
+    certs.forEach(function(c) { html += buildCertCard(c); });
+    html += '</div></div>';
+  }
+
+  if (!korpus.length && !dar.length && !external.length && !dpo.length && !books.length && !trainers.length && !certs.length) {
+    html += '<div class="k-empty">Нет материалов для этой компетенции и грейда</div>';
+  }
+
+  html += '</div>';
+  coursesContainer.innerHTML = html;
+}
+
+function buildCourseCard(c, source) {
+  var desc = c.desc || 'Описание не указано';
+  return '<div class="k-course-card"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a>'
+    + '<div class="k-meta"><span class="k-grade">' + escapeHtml(c.grade) + '</span><span class="k-source-tag">' + source + '</span></div>'
+    + '<div class="k-popover">' + escapeHtml(desc) + '</div></div>';
+}
+function buildExternalCard(c) {
+  var desc = c.desc || 'Бесплатный курс';
+  var prov = c.provider ? '<span class="k-provider">' + escapeHtml(c.provider) + '</span>' : '';
+  var dur = c.duration ? '<span class="k-duration">' + escapeHtml(c.duration) + '</span>' : '';
+  return '<div class="k-course-card"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a>'
+    + '<div class="k-meta">' + prov + dur + '<span class="k-price">Бесплатно</span><span class="k-grade">' + escapeHtml(c.grade || '') + '</span></div>'
+    + '<div class="k-popover">' + escapeHtml(desc) + '</div></div>';
+}
+function buildDPOCard(c) {
+  var grades = c.grades.join(',');
+  return '<div class="k-course-card"><a href="' + c.url + '" target="_blank" rel="noopener">' + escapeHtml(c.name) + '</a>'
+    + '<div class="k-meta">'
+    + '<span class="k-provider">' + escapeHtml(c.provider) + '</span>'
+    + '<span class="k-duration">' + escapeHtml(c.duration) + '</span>'
+    + '<span class="k-price">' + escapeHtml(c.price) + '</span>'
+    + '<span class="k-grade">' + escapeHtml(grades) + '</span>'
+    + '</div></div>';
+}
+function buildBookCard(b) {
+  var author = b.author ? '<span class="k-author">' + escapeHtml(b.author) + '</span>' : '';
+  var note = b.note ? '<span class="k-note">' + escapeHtml(b.note) + '</span>' : '';
+  return '<div class="k-course-card"><a href="' + b.url + '" target="_blank" rel="noopener">📖 ' + escapeHtml(b.title) + '</a>'
+    + '<div class="k-meta">' + author + '</div>' + note + '</div>';
+}
+function buildTrainerCard(t) {
+  var desc = t.desc || '';
+  return '<div class="k-course-card"><a href="' + t.url + '" target="_blank" rel="noopener">🎯 ' + escapeHtml(t.name) + '</a>'
+    + '<div class="k-meta"><span class="k-source-tag">Тренажёр</span></div>'
+    + (desc ? '<div class="k-popover">' + escapeHtml(desc) + '</div>' : '') + '</div>';
+}
+function buildCertCard(c) {
+  var prov = c.provider ? '<span class="k-provider">' + escapeHtml(c.provider) + '</span>' : '';
+  var price = c.price ? '<span class="k-price">' + escapeHtml(c.price) + '</span>' : '';
+  return '<div class="k-course-card"><a href="' + c.url + '" target="_blank" rel="noopener">🎓 ' + escapeHtml(c.name) + '</a>'
+    + '<div class="k-meta">' + prov + price + '</div>'
+    + (c.requirements ? '<span class="k-note">' + escapeHtml(c.requirements) + '</span>' : '') + '</div>';
+}
+
+gradeChips.forEach(function(chip) {
+  chip.addEventListener('click', function() {
+    gradeChips.forEach(function(c) { c.classList.remove('active'); });
+    this.classList.add('active');
+    selectedGrade = this.dataset.grade;
+    renderCourses();
+  });
+});
+searchInput.addEventListener('input', renderCourses);
+renderCategories();
+
+// Чат
+var chatBubble = document.getElementById('chatBubble');
+var chatModal = document.getElementById('chatModal');
+var closeChatBtn = document.getElementById('closeChatBtn');
+var chatMessagesEl = document.getElementById('chatMessages');
+var chatInput = document.getElementById('chatInput');
+var chatSendBtn = document.getElementById('chatSendBtn');
+
+function addMessage(role, text, isLoading) {
+  var div = document.createElement('div');
+  div.className = 'chat-message ' + role;
+  if (isLoading) div.id = 'loading-msg';
+  if (text.indexOf('<a') !== -1 || text.indexOf('<div') !== -1) div.innerHTML = text;
+  else div.textContent = text;
+  chatMessagesEl.appendChild(div);
+  chatMessagesEl.scrollTop = chatMessagesEl.scrollHeight;
+  return div;
+}
+function getAllItems() {
+  var all = [];
+  Object.keys(data).forEach(function(category) {
+    Object.keys(data[category]).forEach(function(comp) {
+      var courses = data[category][comp];
+      ['korpus','dar'].forEach(function(src) {
+        (courses[src] || []).forEach(function(c) {
+          all.push({name: c.name, url: c.url, grade: c.grade, desc: c.desc, competence: comp, category: category, kind: 'course'});
+        });
+      });
+      (courses.external || []).forEach(function(c) {
+        all.push({name: c.name, url: c.url, grade: c.grade || '', desc: c.desc, competence: comp, category: category, kind: 'external'});
+      });
+    });
+  });
+  DPO.forEach(function(c) {
+    all.push({name: c.name, url: c.url, grade: c.grades.join(','), desc: c.competencies.join(', '), competence: 'ДПО', category: c.type === 'a' ? 'ДПО Аналитика' : 'ДПО ИИ', kind: 'dpo'});
+  });
+  var booksMap = (KORUS_CATALOG && KORUS_CATALOG.books) || {};
+  Object.keys(booksMap).forEach(function(comp) {
+    booksMap[comp].forEach(function(b) {
+      all.push({name: b.title, url: b.url || KORUS_CATALOG.bookUrl, grade: '', desc: b.author || '', competence: comp, category: 'Книга', kind: 'book'});
+    });
+  });
+  var trainersMap = (KORUS_CATALOG && KORUS_CATALOG.trainers) || {};
+  Object.keys(trainersMap).forEach(function(comp) {
+    trainersMap[comp].forEach(function(t) {
+      all.push({name: t.name, url: t.url, grade: '', desc: t.desc || '', competence: comp, category: 'Тренажёр', kind: 'trainer'});
+    });
+  });
+  var certsMap = (KORUS_CATALOG && KORUS_CATALOG.certs) || {};
+  Object.keys(certsMap).forEach(function(comp) {
+    certsMap[comp].forEach(function(c) {
+      all.push({name: c.name, url: c.url, grade: '', desc: c.provider || '', competence: comp, category: 'Сертификация', kind: 'cert'});
+    });
+  });
+  return all;
+}
+function findCoursesLocal(query) {
+  var words = query.toLowerCase().split(/\s+/).filter(function(w) { return w.length > 2; });
+  if (!words.length) return '😕 Напишите более конкретный запрос, например: "SQL для мидла".';
+  var all = getAllItems();
+  var scored = all.map(function(course) {
+    var name = course.name.toLowerCase();
+    var desc = (course.desc || '').toLowerCase();
+    var comp = (course.competence || '').toLowerCase();
+    var cat = (course.category || '').toLowerCase();
+    var score = 0;
+    words.forEach(function(word) {
+      if (name.includes(word)) score += 5;
+      if (desc.includes(word)) score += 3;
+      if (comp.includes(word)) score += 2;
+      if (cat.includes(word)) score += 2;
+    });
+    return Object.assign({}, course, {score: score});
+  });
+  var found = scored.filter(function(c) { return c.score > 0; }).sort(function(a, b) { return b.score - a.score; }).slice(0, 5);
+  if (!found.length) return '😕 По вашему запросу ничего не найдено.';
+  var list = found.map(function(c, idx) {
+    var icon = c.kind === 'book' ? '📖 ' : c.kind === 'trainer' ? '🎯 ' : c.kind === 'cert' ? '🎓 ' : '';
+    return (idx + 1) + '. <a href="' + c.url + '" target="_blank" class="course-link">' + icon + escapeHtml(c.name) + '</a> (' + escapeHtml(c.competence) + ')';
+  }).join('<br>');
+  return '📚 Нашёл материалы:<br><div class="course-list">' + list + '</div>';
+}
+function handleChatQuery() {
+  var question = chatInput.value.trim();
+  if (!question) return;
+  chatInput.value = '';
+  addMessage('user', question);
+  var loadingMsg = addMessage('bot', '⏳ Ищу материалы...', true);
+  try {
+    var answer = findCoursesLocal(question);
+    if (loadingMsg) loadingMsg.remove();
+    addMessage('bot', answer);
+  } catch (err) {
+    if (loadingMsg) loadingMsg.remove();
+    addMessage('bot', '❌ Ошибка: ' + err.message);
+  }
+}
+chatBubble.addEventListener('click', function() { chatModal.classList.toggle('open'); if (chatModal.classList.contains('open')) chatInput.focus(); });
+closeChatBtn.addEventListener('click', function() { chatModal.classList.remove('open'); });
+document.addEventListener('click', function(e) { if (chatModal.classList.contains('open') && !chatModal.contains(e.target) && e.target !== chatBubble) chatModal.classList.remove('open'); });
+chatSendBtn.addEventListener('click', handleChatQuery);
+chatInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); handleChatQuery(); } });
+
+console.log('✅ Загружено материалов:', getAllItems().length, '| ДПО:', DPO.length);
+</script>
+</body>
+</html>

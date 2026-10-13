@@ -1,0 +1,279 @@
+[
+  {
+    "category": "Сбор и анализ требований",
+    "competency": "Выявление и сбор требований",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Сбор и анализ требований",
+    "competency": "Анализ и формулирование требований (ФТ)",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Сбор и анализ требований",
+    "competency": "Анализ и формулирование требований (НФТ)",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Сбор и анализ требований",
+    "competency": "Моделирование процессов",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Проектирование и разработка",
+    "competency": "Бизнес-глоссарий/логическая модель данных",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Проектирование и разработка",
+    "competency": "Модель данных",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Проектирование и разработка",
+    "competency": "Требования к интеграции",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Проектирование и разработка",
+    "competency": "S2T",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Проектирование и разработка",
+    "competency": "Постановка на разработку",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Тестирование",
+    "competency": "Тестирование",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Анализ данных",
+    "competency": "SQL",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Анализ данных",
+    "competency": "Основы статистики",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Анализ данных",
+    "competency": "Качество данных",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Работа с документами",
+    "competency": "Документирование",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Работа с документами",
+    "competency": "Редактура и текст",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Макетирование и основы UI/UX",
+    "competency": "Макетирование",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Макетирование и основы UI/UX",
+    "competency": "Подбор типа графика под задачу",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Макетирование и основы UI/UX",
+    "competency": "UX-паттерны",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Участие в Presale",
+    "competency": "Участие в Presale",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Управление ожиданиями и изменениями",
+    "competency": "Управление ожиданиями и информирование о трудностях",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление ожиданиями и изменениями",
+    "competency": "Управление изменениями",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Проектные методологии",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Анализ рисков",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Управление проектом",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Оценка трудозатрат",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Опыт реализации проектов",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Управление проектом",
+    "competency": "Работа в режиме многозадачности",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "HR и развитие сотрудников",
+    "competency": "Развитие сотрудников",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "HR и развитие сотрудников",
+    "competency": "Найм и оценка уровня кандидатов/сотрудников",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Презентации и обучение",
+    "competency": "Презентация результатов работы",
+    "max_level": 2,
+    "achieved_levels": [
+      2
+    ]
+  },
+  {
+    "category": "Презентации и обучение",
+    "competency": "Обучение пользователей",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  },
+  {
+    "category": "Презентации и обучение",
+    "competency": "Демо заказчику",
+    "max_level": 3,
+    "achieved_levels": [
+      2,
+      3
+    ]
+  }
+]

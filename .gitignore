@@ -1,0 +1,28 @@
+# Файлы с секретами и конфигурациями
+.env
+.env.local
+.env.*.local
+
+# Папка с зависимостями Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Настройки редакторов
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Файлы сборки, кеш
+dist/
+build/
+.DS_Store
+Thumbs.db
+
+# Книги (слишком тяжёлые, храним на Google Drive)
+books/
