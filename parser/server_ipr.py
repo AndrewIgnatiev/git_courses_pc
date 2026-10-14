@@ -5,22 +5,43 @@ from pydantic import BaseModel
 from docx import Document
 from docx.shared import Pt
 from datetime import datetime
+from pathlib import Path
 import json
 import os
+import sys
+import subprocess
 import tempfile
 import shutil
 
 app = FastAPI(title="ИПР Generator")
 
-# CORS — чтобы браузер мог обращаться
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # для локалки можно *
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-TEMPLATE_PATH = "test_case/shablon_ipr.docx"
+# === Пути ===
+PARSER_DIR = Path(__file__).parent                # parser/
+ROOT_DIR = PARSER_DIR.parent                       # корень проекта
+TEST_DIR = PARSER_DIR / "test_case"
+TEMPLATE_PATH = TEST_DIR / "shablon_ipr.docx"
+TEST_DIR.mkdir(exist_ok=True)
+
+# Имена файлов, которые ждут парсеры
+FILE_MAP = {
+    "eos": "soft_matrica.xlsx",
+    "hard": "hard_skills_matrix.xlsx",
+    "transcript": "transcript_BOR.docx",
+}
+
+PIPELINE_STEPS = [
+    ("parse_matrix.py", "Парсинг матрицы софтов"),
+    ("parse_hard.py", "Парсинг чек-листа хардов"),
+    ("build_prompt.py", "Формирование промпта"),
+    ("call_llm.py", "Генерация через LLM"),
+]
 
 
 class IprRequest(BaseModel):
@@ -31,7 +52,7 @@ class IprRequest(BaseModel):
 
 
 # ============================================================
-# Утилиты (те же, что в fill_ipr.py)
+# Утилиты заполнения шаблона
 # ============================================================
 def fill_cell_multiline(cell, text, size=9):
     for p in cell.paragraphs[1:]:
@@ -58,12 +79,6 @@ def split_methods(methods_str):
     return [m.strip() for m in str(methods_str).split(",") if m.strip()]
 
 
-def get_num_rows(a):
-    n_actions = len(a.get("actions", []))
-    n_methods = len(split_methods(a.get("methods", "")))
-    return max(n_actions, n_methods, 1)
-
-
 def format_goal_with_smart(goal):
     text = goal.get("goal", "")
     smart = goal.get("smart", {})
@@ -74,16 +89,12 @@ def format_goal_with_smart(goal):
     return text
 
 
-# ============================================================
-# Генерация
-# ============================================================
-@app.post("/generate")
-async def generate_ipr(req: IprRequest):
+def generate_word_from_json(data: dict) -> str:
+    """Заполняет shablon_ipr.docx данными из JSON, возвращает путь к готовому файлу."""
     if not os.path.exists(TEMPLATE_PATH):
         raise HTTPException(500, f"Шаблон не найден: {TEMPLATE_PATH}")
 
     doc = Document(TEMPLATE_PATH)
-    data = req.dict()
 
     emp = data.get("employee", {})
     name = emp.get("name", "Сотрудник")
@@ -136,60 +147,123 @@ async def generate_ipr(req: IprRequest):
         fill_cell_multiline(row.cells[2], g.get("comment", ""), size=9)
         fill_cell_multiline(row.cells[3], deadline, size=9)
 
-    # Раздел 3 — Действия
+    # Раздел 3 — Действия (методы и actions — независимыми списками)
     actions = data.get("section_3_actions", [])
     actions_table = doc.tables[1]
     while len(actions_table.rows) > 1:
         actions_table._element.remove(actions_table.rows[-1]._element)
 
-    total_rows = sum(get_num_rows(a) for a in actions)
-    for _ in range(total_rows):
+    for _ in range(len(actions)):
         actions_table.add_row()
 
-    row_cursor = 1
-    for a in actions:
-        n = get_num_rows(a)
-        methods = split_methods(a.get("methods", ""))
-        acts = a.get("actions", [])
-
-        for col in [0, 3, 4, 5]:
-            if n > 1:
-                try:
-                    top = actions_table.rows[row_cursor].cells[col]
-                    bottom = actions_table.rows[row_cursor + n - 1].cells[col]
-                    top.merge(bottom)
-                except Exception:
-                    pass
+    for idx, a in enumerate(actions):
+        row = actions_table.rows[idx + 1]
 
         comp_text = a.get("competency", "")
         if a.get("indicator"):
             comp_text += f"\n({a['indicator']})"
+        fill_cell_multiline(row.cells[0], comp_text, size=9)
 
-        fill_cell_multiline(actions_table.rows[row_cursor].cells[0], comp_text, size=9)
-        fill_cell_multiline(actions_table.rows[row_cursor].cells[3], a.get("who_helps", ""), size=9)
-        fill_cell_multiline(actions_table.rows[row_cursor].cells[4], a.get("deadline", ""), size=9)
-        fill_cell_multiline(actions_table.rows[row_cursor].cells[5], str(a.get("goal_id", "")), size=9)
+        methods = split_methods(a.get("methods", ""))
+        methods_text = "\n".join([f"• {m}" for m in methods]) if methods else ""
+        fill_cell_multiline(row.cells[1], methods_text, size=9)
 
-        for j in range(n):
-            m = methods[j] if j < len(methods) else ""
-            act = acts[j] if j < len(acts) else ""
-            fill_cell_multiline(actions_table.rows[row_cursor + j].cells[1], m, size=9)
-            fill_cell_multiline(actions_table.rows[row_cursor + j].cells[2], f"• {act}" if act else "", size=9)
+        acts = a.get("actions", [])
+        actions_text = "\n".join([f"• {x}" for x in acts]) if acts else ""
+        fill_cell_multiline(row.cells[2], actions_text, size=9)
 
-        row_cursor += n
+        fill_cell_multiline(row.cells[3], a.get("who_helps", ""), size=9)
+        fill_cell_multiline(row.cells[4], a.get("deadline", ""), size=9)
+        fill_cell_multiline(row.cells[5], str(a.get("goal_id", "")), size=9)
 
-    # Сохраняем во временный файл
     safe_name = name.replace(" ", "_").replace("/", "-")
     filename = f"ИПР_{safe_name}_{datetime.now().strftime('%Y-%m-%d')}.docx"
     tmp_dir = tempfile.mkdtemp()
     output_path = os.path.join(tmp_dir, filename)
     doc.save(output_path)
+    return output_path
 
+
+# ============================================================
+# Endpoint 1: JSON → Word
+# ============================================================
+@app.post("/generate")
+async def generate_ipr(req: IprRequest):
+    path = generate_word_from_json(req.dict())
     return FileResponse(
-        output_path,
+        path,
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        filename=filename
+        filename=os.path.basename(path),
     )
+
+
+# ============================================================
+# Endpoint 2: 3 файла → JSON (для заполнения интерфейса)
+# ============================================================
+@app.post("/generate-from-files")
+async def generate_from_files(
+    eos: UploadFile = File(...),
+    hard: UploadFile = File(...),
+    transcript: UploadFile = File(...),
+):
+    # 1. Сохраняем файлы под именами, которые ждут парсеры
+    try:
+        with open(TEST_DIR / FILE_MAP["eos"], "wb") as f:
+            f.write(await eos.read())
+        with open(TEST_DIR / FILE_MAP["hard"], "wb") as f:
+            f.write(await hard.read())
+        with open(TEST_DIR / FILE_MAP["transcript"], "wb") as f:
+            f.write(await transcript.read())
+    except Exception as e:
+        raise HTTPException(500, f"Ошибка сохранения файлов: {e}")
+
+    # 2. Запускаем пайплайн
+    logs = []
+    for script, label in PIPELINE_STEPS:
+        logs.append(f"▶ {label} ({script})")
+        try:
+            result = subprocess.run(
+                [sys.executable, script],
+                cwd=PARSER_DIR,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                timeout=900,
+            )
+        except subprocess.TimeoutExpired:
+            raise HTTPException(500, f"Шаг '{script}' завис (>15 мин). Логи:\n" + "\n".join(logs))
+        if result.returncode != 0:
+            raise HTTPException(500, f"Ошибка в {script}.\n{result.stderr[-800:]}\n\nЛоги:\n" + "\n".join(logs))
+        logs.append(result.stdout[-1000:] if result.stdout else "")
+
+    # 3. Читаем ipr_draft.json
+    draft_path = PARSER_DIR / "ipr_draft.json"
+    if not draft_path.exists():
+        raise HTTPException(500, "Не создан ipr_draft.json. Логи:\n" + "\n".join(logs))
+
+    with open(draft_path, encoding="utf-8") as f:
+        data = json.load(f)
+
+    # 4. Возвращаем JSON — фронт заполнит интерфейс
+    return data
+
+
+# ============================================================
+# Раздача HTML и статики из корня
+# ============================================================
+@app.get("/")
+async def index():
+    return FileResponse(ROOT_DIR / "ipr-builder.html")
+
+
+@app.get("/catalog.js")
+async def catalog_js():
+    return FileResponse(ROOT_DIR / "catalog.js")
+
+
+@app.get("/catalog-courses.js")
+async def catalog_courses_js():
+    return FileResponse(ROOT_DIR / "catalog-courses.js")
 
 
 @app.get("/health")
@@ -199,4 +273,8 @@ async def health():
 
 if __name__ == "__main__":
     import uvicorn
+    print("=" * 60)
+    print("  Конструктор ИПР запущен")
+    print("  Открой в браузере: http://localhost:8000")
+    print("=" * 60)
     uvicorn.run(app, host="127.0.0.1", port=8000)

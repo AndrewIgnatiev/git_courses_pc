@@ -1,11 +1,25 @@
 import openpyxl
 import json
+import sys
 
 FILE = "test_case/hard_skills_matrix.xlsx"
-wb = openpyxl.load_workbook(FILE, data_only=True)
-ws = wb["Чеклист"]
 
-# Собираем все строки в список
+# === Открываем книгу и берём первый лист ===
+try:
+    wb = openpyxl.load_workbook(FILE, data_only=True)
+except Exception as e:
+    print(f"❌ Не удалось открыть файл «{FILE}»: {e}")
+    sys.exit(1)
+
+if not wb.sheetnames:
+    print(f"❌ В файле «{FILE}» нет ни одного листа.")
+    sys.exit(1)
+
+first_sheet_name = wb.sheetnames[0]
+ws = wb[first_sheet_name]
+print(f"📄 Читаем первый лист: «{first_sheet_name}» ({ws.max_row} строк × {ws.max_column} колонок)")
+
+# === Собираем все строки ===
 rows = []
 for r in range(1, ws.max_row + 1):
     rows.append({
@@ -16,6 +30,7 @@ for r in range(1, ws.max_row + 1):
         "d": ws.cell(row=r, column=4).value,
     })
 
+
 def next_significant(idx):
     """Следующая строка, у которой есть текст в C или число в B."""
     for j in range(idx + 1, len(rows)):
@@ -24,15 +39,9 @@ def next_significant(idx):
             return row
     return None
 
-SKIP_PREFIXES = ("Другое:", "Зоны роста:", "!После", "Количество респондентов", "% - от общего")
-SKIP_EXACT = ("Сотрудник", "Я", "Junior", "Middle", "Senior", "Lead", "TeamLead",
-              "Сбор и анализ требований", "Проектирование и разработка", "Тестирование",
-              "Анализ данных", "Работа с документами", "Макетирование и основы UI/UX",
-              "Участие в Presale", "Управление ожиданиями и изменениями",
-              "Управление проектом", "HR и развитие сотрудников", "Презентации и обучение")
 
-# Но эти же названия могут быть и компетенциями! Поэтому просто не пропускаем их,
-# а смотрим на контекст.
+SKIP_PREFIXES = ("Другое:", "Зоны роста:", "!После", "Количество респондентов", "% - от общего")
+SKIP_EXACT = ("Сотрудник", "Я")
 
 competencies = []
 current_category = None
@@ -55,15 +64,13 @@ for i, row in enumerate(rows):
     if c and b is None:
         c_str = str(c).strip()
 
-        # Пропускаем служебное
         if any(c_str.startswith(p) for p in SKIP_PREFIXES):
             continue
-        if c_str in ("Сотрудник", "Я"):
+        if c_str in SKIP_EXACT:
             continue
         if len(c_str) < 2:
             continue
 
-        # Смотрим, что идёт следом
         nxt = next_significant(i)
         if nxt is None:
             continue
@@ -71,21 +78,18 @@ for i, row in enumerate(rows):
         next_has_level = isinstance(nxt["b"], int) and nxt["b"] in (2, 3, 4, 5)
 
         if next_has_level:
-            # Следующая строка — подпункт → это КОМПЕТЕНЦИЯ
+            # Это КОМПЕТЕНЦИЯ
             if current_competency and current_items:
                 competencies.append({
                     "category": current_category,
                     "competency": current_competency,
                     "items": current_items,
                 })
-            # Если категория ещё не задана или предыдущая компетенция завершена
             current_competency = c_str
             current_items = []
         else:
-            # Следующая — тоже название → это КАТЕГОРИЯ
-            # Но только если перед ней не идёт уже набранная компетенция
+            # Это КАТЕГОРИЯ
             if current_competency and current_items:
-                # Завершаем предыдущую
                 competencies.append({
                     "category": current_category,
                     "competency": current_competency,
@@ -93,15 +97,9 @@ for i, row in enumerate(rows):
                 })
                 current_competency = None
                 current_items = []
+            current_category = c_str
 
-            # Если это известное название категории — обновляем
-            if c_str in SKIP_EXACT:
-                current_category = c_str
-            else:
-                # Иначе — тоже категория (но, возможно, неизвестная)
-                current_category = c_str
-
-# Последняя
+# Последняя компетенция
 if current_competency and current_items:
     competencies.append({
         "category": current_category,
@@ -109,11 +107,19 @@ if current_competency and current_items:
         "items": current_items,
     })
 
-# Считаем уровни
+# === Считаем уровни ===
 result = []
+warnings = []
 for comp in competencies:
     achieved = [item["level"] for item in comp["items"] if item["checked"]]
     max_level = max(achieved) if achieved else 0
+
+    if len(achieved) > 1:
+        warnings.append(
+            f"«{comp['competency']}»: отмечено {len(achieved)} уровней {sorted(achieved)}. "
+            f"Берём максимальный: {max_level}."
+        )
+
     result.append({
         "category": comp["category"],
         "competency": comp["competency"],
@@ -121,9 +127,38 @@ for comp in competencies:
         "achieved_levels": sorted(achieved),
     })
 
+# === Проверка результата ===
+if not result:
+    print("❌ Не найдено ни одной компетенции в файле.")
+    print("   Проверь структуру: столбец B — уровни 2-5, столбец C — названия.")
+    sys.exit(1)
+
+no_level = [c for c in result if c["max_level"] == 0]
+if no_level:
+    print(f"\n⚠️  {len(no_level)} компетенций без отмеченных уровней (max_level = 0):")
+    for c in no_level[:5]:
+        print(f"   • {c['competency']}")
+    if len(no_level) > 5:
+        print(f"   ... и ещё {len(no_level) - 5}")
+
+if warnings:
+    print(f"\n⚠️  Обнаружено {len(warnings)} компетенций с несколькими галочками:")
+    for w in warnings[:10]:
+        print(f"   • {w}")
+    if len(warnings) > 10:
+        print(f"   ... и ещё {len(warnings) - 10}")
+
+# === Сохраняем ===
 with open("hard_skills.json", "w", encoding="utf-8") as f:
     json.dump(result, f, ensure_ascii=False, indent=2)
 
-print(f"=== Всего компетенций: {len(result)} ===\n")
-for r in result:
-    print(f"[{r['max_level']}] {r['category']} → {r['competency']}")
+print(f"\n✅ Всего компетенций: {len(result)}")
+print(f"   С отмеченными уровнями: {len(result) - len(no_level)}")
+print(f"   Сохранено в hard_skills.json")
+
+# Показываем превью
+print("\n=== Превью ===")
+for r in result[:10]:
+    print(f"  [{r['max_level']}] {r['category']} → {r['competency']}")
+if len(result) > 10:
+    print(f"  ... и ещё {len(result) - 10}")

@@ -5,7 +5,7 @@ import openai
 # Конфигурация
 # ============================================================
 LM_STUDIO_URL = "http://localhost:1234/v1"
-MODEL_NAME = "qwen2.5-7b-instruct"
+MODEL_NAME = "ministral-3-8b-instruct-2512"  # поменяй на точное имя из /v1/models
 
 client = openai.OpenAI(
     base_url=LM_STUDIO_URL,
@@ -13,6 +13,7 @@ client = openai.OpenAI(
     timeout=1800.0,
     max_retries=0
 )
+
 
 # ============================================================
 # Утилиты
@@ -63,6 +64,28 @@ def call_llm(system_file, user_file, label):
 
 
 # ============================================================
+# Определение грейда из должности
+# ============================================================
+GRADE_TO_NEXT = {
+    "Junior": "Middle",
+    "Middle": "Senior",
+    "Senior": "Lead",
+    "Lead": "TeamLead",
+}
+
+
+def detect_grade(position_str):
+    pos = (position_str or "").lower()
+    if "старший" in pos or "senior" in pos:
+        return "Senior"
+    if "ведущий" in pos or "lead" in pos:
+        return "Lead"
+    if "младший" in pos or "junior" in pos:
+        return "Junior"
+    return "Middle"  # дефолт для "аналитик" без приставки
+
+
+# ============================================================
 # Пост-обработка
 # ============================================================
 def find_grade_goal_id(goals):
@@ -71,7 +94,6 @@ def find_grade_goal_id(goals):
         text = (g.get("goal", "") + " " + g.get("comment", "")).lower()
         if any(kw in text for kw in ["грейд", "middle", "переход", "аттестац"]):
             return g.get("id")
-    # Если LLM забыла — добавляем
     new_id = max([g.get("id", 0) for g in goals] + [0]) + 1
     goals.append({
         "id": new_id,
@@ -115,12 +137,10 @@ def ensure_three_goals(goals, grade_goal_id):
     """Гарантирует 3 цели: грейд + hard + soft."""
     if len(goals) >= 3:
         return
-    # Ищем цель про софт
     has_soft_goal = any(
-    "встреч" in (g.get("goal", "") + g.get("comment", "")).lower()
-    or "презентац" in (g.get("goal", "") + g.get("comment", "")).lower()
-    for g in goals
-)
+        "встреч" in (g.get("goal", "") + g.get("comment", "")).lower()
+        for g in goals
+    )
     if not has_soft_goal:
         new_id = max([g.get("id", 0) for g in goals] + [0]) + 1
         goals.append({
@@ -142,17 +162,36 @@ def ensure_three_goals(goals, grade_goal_id):
 def clean_action_stubs(action):
     """Убирает заглушки в actions и нормализует до 3-4 действий."""
     acts = action.get("actions", [])
-    # Убираем заглушки
     cleaned = [
         a for a in acts
         if not any(stub in a.lower() for stub in ["отсутству", "не найдено", "не найдены"])
     ]
-    # Если меньше 3 — добавляем практику
     while len(cleaned) < 3:
         cleaned.append("Практика на проекте")
-    # Ограничиваем до 4
     action["actions"] = cleaned[:4]
     return action
+
+
+def pick_goal_id(comp_name, comp_type, goals, grade_goal_id, comm_goal_id):
+    """Подбирает goal_id по смыслу компетенции."""
+    comp_lower = (comp_name or "").lower()
+    for g in goals:
+        goal_text = (g.get("goal", "") + " " + g.get("comment", "")).lower()
+        if comp_type == "soft":
+            if "встреч" in comp_lower and "встреч" in goal_text:
+                return g.get("id")
+            if "презентац" in comp_lower and "презентац" in goal_text:
+                return g.get("id")
+            if "переговор" in comp_lower and "переговор" in goal_text:
+                return g.get("id")
+        else:
+            if "sql" in comp_lower and "sql" in goal_text:
+                return g.get("id")
+            if "модель данных" in comp_lower and "модель данных" in goal_text:
+                return g.get("id")
+            if "нфт" in comp_lower and ("нфт" in goal_text or "требован" in goal_text):
+                return g.get("id")
+    return grade_goal_id if comp_type == "hard" else comm_goal_id
 
 
 # ============================================================
@@ -196,20 +235,25 @@ for i, g in enumerate(goals):
         g["deadline"] = goals_deadlines[i % len(goals_deadlines)]
 
 print(f"   Целей: {len(goals)}")
-print(f"   goal_id для hard = {grade_goal_id}")
-print(f"   goal_id для soft = {comm_goal_id}")
+print(f"   goal_id для hard (грейд) = {grade_goal_id}")
+print(f"   goal_id для soft (коммуникация) = {comm_goal_id}")
 
 # --- Действия ---
 actions_list = result_2.get("section_3_actions", [])
 
-# Чистим заглушки
 for a in actions_list:
     clean_action_stubs(a)
 
 # Разные дедлайны для actions
 deadlines_pool = ["2027-04-12", "2027-07-12", "2027-10-12"]
 for i, a in enumerate(actions_list):
-    a["goal_id"] = grade_goal_id if a.get("type") == "hard" else comm_goal_id
+    a["goal_id"] = pick_goal_id(
+        a.get("competency"),
+        a.get("type"),
+        goals,
+        grade_goal_id,
+        comm_goal_id
+    )
     a["deadline"] = deadlines_pool[i % len(deadlines_pool)]
 
 print(f"   Дедлайны actions: {[a['deadline'] for a in actions_list]}")
@@ -218,16 +262,28 @@ for g in goals:
     print(f"     id={g.get('id')}: {g.get('goal')} → {g.get('deadline')}")
 
 # ============================================================
+# Читаем данные сотрудника из parsed_data.json
+# ============================================================
+with open("parsed_data.json", encoding="utf-8") as f:
+    soft_data = json.load(f)
+
+main_info = soft_data.get("main_info", {})
+position = main_info.get("position", "")
+
+current_grade = detect_grade(position)
+target_grade = GRADE_TO_NEXT.get(current_grade, "Middle")
+
+# ============================================================
 # Склейка финального JSON
 # ============================================================
 final = {
     "employee": {
-        "name": "Ахмедова Дарья",
-        "position": "Младший аналитик",
-        "manager": "Бизякина Наталья",
-        "mentor": "Самарцева София",
-        "current_grade": "Junior",
-        "target_grade": "Middle"
+        "name": main_info.get("name", "Сотрудник"),
+        "position": position,
+        "manager": main_info.get("manager", ""),
+        "mentor": main_info.get("mentor", ""),
+        "current_grade": current_grade,
+        "target_grade": target_grade
     },
     "section_1_results": result_1.get("section_1_results", []),
     "section_2_goals": goals,
@@ -239,6 +295,11 @@ with open("ipr_draft.json", "w", encoding="utf-8") as f:
 
 print("\n" + "=" * 50)
 print("✅ ИТОГОВЫЙ JSON собран: ipr_draft.json")
+print(f"   👤 Сотрудник: {final['employee']['name']}")
+print(f"      Должность: {position}")
+print(f"      Грейд: {current_grade} → {target_grade}")
+print(f"      Руководитель: {final['employee']['manager']}")
+print(f"      Наставник: {final['employee']['mentor']}")
 print(f"   section_1_results: {len(final['section_1_results'])} пунктов")
 print(f"   section_2_goals: {len(final['section_2_goals'])} целей")
 print(f"   section_3_actions: {len(final['section_3_actions'])} компетенций")

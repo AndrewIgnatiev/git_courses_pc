@@ -224,6 +224,7 @@ a{color:var(--brand-dark);text-decoration:none}a:hover{text-decoration:underline
 </div>
 <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
 <div class="k-hero-badge">Черновик можно скачать и доработать</div>
+<button id="generateFromFilesBtn" style="background:rgba(99,102,241,.9);color:#fff;border:1px solid rgba(255,255,255,.45);padding:11px 18px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s">🤖 Сгенерировать из файлов ЕОС/БОР</button>
 <button id="loadJsonBtn" style="background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);padding:11px 18px;border-radius:10px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s">📥 Загрузить черновик ИПР из JSON</button>
 </div>
 </section>
@@ -347,6 +348,34 @@ a{color:var(--brand-dark);text-decoration:none}a:hover{text-decoration:underline
 
 <div class="ipr-overlay" id="resultOverlay">
 <div class="ipr-result" id="resultBody"></div>
+</div>
+
+<!-- ============================================================ -->
+<!-- Модальное окно: генерация из файлов -->
+<!-- ============================================================ -->
+<div id="filesModal" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,.7);z-index:2000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)">
+  <div style="background:#fff;border-radius:20px;max-width:520px;width:100%;padding:32px;position:relative;max-height:90vh;overflow-y:auto">
+    <button id="closeFilesModal" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;background:#f1f5f9;border:none;font-size:16px;cursor:pointer">✕</button>
+    <h2 style="font-size:22px;font-weight:800;margin-bottom:6px">Сгенерировать ИПР из файлов</h2>
+    <p style="color:#667085;font-size:14px;margin-bottom:22px">Загрузите три файла — сервер соберёт черновик автоматически</p>
+
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">1. Обратная связь (Excel)</label>
+      <input type="file" id="fileEos" accept=".xlsx" style="width:100%;padding:10px;border:2px dashed #cbd5e1;border-radius:10px;font-size:13px;background:#f8fafc;cursor:pointer">
+    </div>
+    <div style="margin-bottom:16px">
+      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">2. Чек-лист хардов (Excel)</label>
+      <input type="file" id="fileHard" accept=".xlsx" style="width:100%;padding:10px;border:2px dashed #cbd5e1;border-radius:10px;font-size:13px;background:#f8fafc;cursor:pointer">
+    </div>
+    <div style="margin-bottom:22px">
+      <label style="display:block;font-size:13px;font-weight:600;margin-bottom:6px">3. Транскрипт БОР (Word)</label>
+      <input type="file" id="fileTranscript" accept=".docx" style="width:100%;padding:10px;border:2px dashed #cbd5e1;border-radius:10px;font-size:13px;background:#f8fafc;cursor:pointer">
+    </div>
+
+    <button id="runPipelineBtn" style="width:100%;padding:14px;background:linear-gradient(135deg,#6366f1,#4f46e5);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer">🚀 Сгенерировать</button>
+
+    <div id="filesStatus" style="margin-top:18px;padding:14px;border-radius:10px;font-size:13px;display:none;white-space:pre-wrap;line-height:1.5"></div>
+  </div>
 </div>
 
 <script src="catalog.js"></script>
@@ -1307,7 +1336,7 @@ function downloadIpr() {
 $('downloadBtn').addEventListener('click', downloadIpr);
 
 // ====================================================================
-// ГЕНЕРАЦИЯ .DOCX ЧЕРЕЗ ЛОКАЛЬНЫЙ СЕРВЕР
+// ГЕНЕРАЦИЯ .DOCX ИЗ JSON (кнопка «Скачать .docx»)
 // ====================================================================
 async function downloadDocx() {
   try {
@@ -1335,7 +1364,7 @@ async function downloadDocx() {
       const indicator = (current !== undefined && target !== undefined)
         ? `${current} → ${target}` : '';
 
-            var actData = (state.actionsData && state.actionsData[key]) || {};
+      var actData = (state.actionsData && state.actionsData[key]) || {};
 
       payload.section_3_actions.push({
         competency: compName,
@@ -1353,7 +1382,7 @@ async function downloadDocx() {
 
     console.log('📤 Отправляем на сервер:', payload);
 
-    const res = await fetch('http://localhost:8000/generate', {
+    const res = await fetch('/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
@@ -1440,7 +1469,6 @@ function loadIprFromJson(json) {
       var key = cat + '::' + realName;
       state.selectedComps.add(key);
       state.compTypes[key] = finalIsHard ? 'hard' : 'soft';
-            // Сохраняем полные данные actions из JSON
       if (!state.actionsData) state.actionsData = {};
       state.actionsData[key] = {
         methods: action.methods || '',
@@ -1508,6 +1536,93 @@ function loadIprFromJson(json) {
   document.getElementById('loadJsonBtn').addEventListener('click', function() {
     input.click();
   });
+})();
+
+// ====================================================================
+// ГЕНЕРАЦИЯ ИЗ ФАЙЛОВ (кнопка «🤖 Сгенерировать из файлов ЕОС/БОР»)
+// ====================================================================
+(function() {
+  var modal = document.getElementById('filesModal');
+  var btn = document.getElementById('generateFromFilesBtn');
+  var closeBtn = document.getElementById('closeFilesModal');
+  var runBtn = document.getElementById('runPipelineBtn');
+  var statusEl = document.getElementById('filesStatus');
+
+  btn.addEventListener('click', function() {
+    modal.style.display = 'flex';
+    statusEl.style.display = 'none';
+  });
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+    statusEl.style.display = 'none';
+  });
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      statusEl.style.display = 'none';
+    }
+  });
+
+  runBtn.addEventListener('click', async function() {
+  var eos = document.getElementById('fileEos').files[0];
+  var hard = document.getElementById('fileHard').files[0];
+  var transcript = document.getElementById('fileTranscript').files[0];
+
+  if (!eos || !hard || !transcript) {
+    statusEl.style.display = 'block';
+    statusEl.style.background = '#fef2f2';
+    statusEl.style.color = '#991b1b';
+    statusEl.textContent = '❌ Загрузите все три файла';
+    return;
+  }
+
+  var fd = new FormData();
+  fd.append('eos', eos);
+  fd.append('hard', hard);
+  fd.append('transcript', transcript);
+
+  runBtn.disabled = true;
+  runBtn.textContent = '⏳ Обрабатываю...';
+  statusEl.style.display = 'block';
+  statusEl.style.background = '#eff6ff';
+  statusEl.style.color = '#1e40af';
+  statusEl.textContent = '⏳ Обрабатываю файлы... Обычно 30–90 секунд.';
+
+  try {
+    var res = await fetch('/generate-from-files', { method: 'POST', body: fd });
+    if (!res.ok) {
+      var err = await res.json().catch(function() { return { detail: 'Неизвестная ошибка' }; });
+      throw new Error(err.detail || 'Ошибка сервера');
+    }
+
+    // Получаем JSON от сервера
+    var json = await res.json();
+
+    // Заполняем конструктор
+    loadIprFromJson(json);
+
+    statusEl.style.background = '#ecfdf3';
+    statusEl.style.color = '#166534';
+    statusEl.textContent = '✅ Готово! Данные загружены в конструктор.\nПроверьте вкладки, отредактируйте и скачайте .docx.';
+
+    // Закрываем модалку через секунду
+    setTimeout(function() {
+      modal.style.display = 'none';
+      statusEl.style.display = 'none';
+    }, 1200);
+
+    // Прокручиваем наверх, чтобы HR увидел заполненный интерфейс
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    statusEl.style.background = '#fef2f2';
+    statusEl.style.color = '#991b1b';
+    statusEl.textContent = '❌ ' + err.message;
+  } finally {
+    runBtn.disabled = false;
+    runBtn.textContent = '🚀 Сгенерировать';
+  }
+});
 })();
 
 renderCompCloud();
